@@ -154,6 +154,26 @@
     .btn-err { background: var(--err-bg); color: var(--err); border: 1px solid #fecaca; }
     .link { font-size: 12px; font-weight: 500; color: var(--accent); background: none; border: none; cursor: pointer; padding: 0; font-family: inherit; }
 
+    .modal-overlay {
+      display: none; position: fixed; inset: 0; z-index: 500;
+      background: rgba(16, 24, 40, 0.45); align-items: center; justify-content: center; padding: 16px;
+    }
+    .modal-overlay.is-open { display: flex; }
+    .modal {
+      width: min(480px, 100%); background: var(--surface); border-radius: var(--r);
+      border: 1px solid var(--line); box-shadow: 0 16px 48px rgba(16, 24, 40, 0.18);
+      padding: 20px 22px 18px;
+    }
+    .modal-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+    .modal-title { margin: 0; font-size: 17px; font-weight: 600; line-height: 1.3; }
+    .modal-close {
+      flex-shrink: 0; width: 32px; height: 32px; border: 1px solid var(--line); border-radius: 8px;
+      background: var(--subtle); color: var(--muted); font-size: 18px; line-height: 1; cursor: pointer;
+    }
+    .modal-close:hover { background: #eef0f4; color: var(--text); }
+    .modal-body { margin: 0; font-size: 14px; color: var(--muted); line-height: 1.5; }
+    .modal-actions { margin-top: 18px; display: flex; gap: 8px; flex-wrap: wrap; }
+
     .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     .human { display: grid; grid-template-columns: 1fr auto; gap: 8px; padding: 9px 0; border-top: 1px solid var(--line); align-items: center; }
     .human:first-of-type { border-top: none; padding-top: 0; }
@@ -221,35 +241,33 @@
     .pstat-v { font-size: 12px; font-weight: 500; }
     .pstat-v.warn { color: var(--warn); font-weight: 600; }
     .participant-note-badge.is-critical { display: inline-block; padding: 4px 8px; font-size: 12px; background: var(--err-bg); border: 1px solid #fecaca; color: var(--err); border-radius: 6px; margin-top: 6px; }
-    .object-shield-summary { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; font-size: 13px; color: var(--muted); }
-    .object-shield-summary .object-addr { font-weight: 600; color: var(--text); }
-    .object-shield-protection-wrap { margin-top: 12px; }
-    .object-shield-dkp-wrap { margin-top: 12px; }
-    .object-shield-dkp {
+    .object-addr-line { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; font-size: 14px; color: var(--muted); margin-bottom: 14px; }
+    .object-addr-line .object-addr { font-weight: 600; color: var(--text); font-size: 15px; }
+    .object-docs-panel { border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--subtle); }
+    .object-docs-bar {
       display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;
-      padding: 9px 10px; background: var(--subtle); border: 1px solid var(--line); border-radius: 6px;
+      padding: 10px 12px; cursor: pointer; user-select: none;
     }
-    .object-shield-dkp-main { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-    .object-shield-dkp-title { margin: 0; font-size: 13px; font-weight: 600; line-height: 1.25; color: var(--text); }
-    .object-shield-dkp-meta { margin: 0; font-size: 12px; color: var(--muted); line-height: 1.35; }
-    .object-shield-dkp-actions { display: flex; gap: 6px; flex-wrap: wrap; flex-shrink: 0; }
-    .object-shield-dkp-actions .btn { font-size: 12px; padding: 6px 10px; }
-    .object-shield-expand {
-      display: flex; align-items: center; justify-content: space-between; gap: 10px;
-      margin-top: 12px; padding: 9px 10px;
-      background: var(--subtle); border: 1px solid var(--line); border-radius: 6px;
-      cursor: pointer; user-select: none;
-    }
-    .object-shield-expand:hover { background: #f2f4f7; border-color: #d0d5dd; }
-    .object-shield-expand-title { font-size: 13px; font-weight: 600; color: var(--text); flex-shrink: 0; }
+    .object-docs-bar:hover { background: #f2f4f7; }
+    .object-docs-bar-title { font-size: 13px; font-weight: 600; color: var(--text); }
+    .object-docs-bar-sub { margin: 2px 0 0; font-size: 12px; color: var(--muted); }
+    .object-docs-bar-meta { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; flex-shrink: 0; }
     .object-shield-block .grp-pill, .object-shield-block .grp-done, .object-shield-block .grp-cur, .object-shield-block .grp-pend, .object-shield-block .grp-warn { font-size: 11px; }
-    .object-shield-body .chk-group-h { font-size: 13px; }
-    .object-shield-expand-meta { display: flex; align-items: center; justify-content: flex-end; gap: 6px; flex-wrap: wrap; margin-left: auto; }
-    .object-shield-body { display: none; padding-top: 10px; }
-    .object-shield-block.is-open .object-shield-body { display: block; }
-    .object-shield-body .chk-group { margin-bottom: 10px; }
-    .object-shield-body .chk-group:last-child { margin-bottom: 0; }
-    .object-shield-body .chk-group-h { cursor: default; }
+    .object-docs-body { display: none; padding: 12px; background: var(--surface); border-top: 1px solid var(--line); }
+    .object-shield-block.is-open .object-docs-body { display: block; }
+    .object-docs-body .chk-group { margin-bottom: 10px; }
+    .object-docs-body .chk-group:last-child { margin-bottom: 0; }
+    .object-docs-body .chk-group-h { cursor: default; font-size: 13px; }
+    .object-dkp-card .card-h { margin-bottom: 12px; }
+    .object-dkp-row {
+      display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+    .object-dkp-price { margin: 0; font-size: 15px; font-weight: 600; line-height: 1.25; color: var(--text); }
+    .object-dkp-card .grp-pill { font-size: 11px; }
+    .object-dkp-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .object-dkp-actions .btn { font-size: 12px; padding: 7px 12px; }
+    .object-protection-card .object-shield-service { background: var(--surface); border: none; padding: 0; }
     .object-shield-service { border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; background: var(--subtle); }
     .object-shield-service-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 4px; }
     .object-shield-service h4 { margin: 0; font-size: 14px; font-weight: 600; line-height: 1.25; }
@@ -516,6 +534,7 @@
     </button>
     <div class="deal-menu-dropdown" id="deal-menu-dropdown" role="menu">
       <a href="#" role="menuitem" data-page="overview">Обзор сделки</a>
+      <a href="#" role="menuitem" data-page="object">Объект</a>
       <a href="#" role="menuitem" data-page="participants">Участники</a>
       <a href="#" role="menuitem" data-page="payments">Расчёты</a>
       <a href="#" role="menuitem" data-page="signing">Подписание</a>
@@ -529,6 +548,7 @@
 <div class="app-shell" id="app-shell">
   <nav class="deal-nav" aria-label="Навигация сделки">
     <a href="#" data-page="overview">Обзор сделки</a>
+    <a href="#" data-page="object">Объект</a>
     <a href="#" data-page="participants">Участники</a>
     <a href="#" data-page="payments">Расчёты</a>
     <a href="#" data-page="signing">Подписание</a>
@@ -620,6 +640,41 @@
       </div>
     </div>
 
+    <!-- object -->
+    <div class="page-view" data-view="object">
+      <div class="body">
+        <main class="main">
+          <section class="card object-shield-block" id="object-shield-block" aria-label="Объект">
+            <div class="card-h">Объект</div>
+            <div class="object-addr-line" id="object-shield-summary"></div>
+            <div class="object-docs-panel">
+              <div class="object-docs-bar" id="object-docs-toggle" role="button" tabindex="0" aria-expanded="false" aria-controls="object-shield-body">
+                <div id="object-docs-bar-main"></div>
+                <div class="object-docs-bar-meta" id="object-docs-bar-meta"></div>
+              </div>
+              <div class="object-docs-body" id="object-shield-body">
+                <div id="object-shield-content"></div>
+              </div>
+            </div>
+          </section>
+          <section class="card object-dkp-card" aria-label="Проект ДКП">
+            <div class="card-h">Проект ДКП</div>
+            <div class="object-dkp-row" id="object-dkp-row"></div>
+            <div class="object-dkp-actions">
+              <button type="button" class="btn btn-g">Отправить участникам</button>
+              <button type="button" class="btn btn-g" data-goto="dkp-preparation">Подготовка ДКП</button>
+            </div>
+          </section>
+          <section class="card object-protection-card" id="object-protection-block" aria-label="Защита сделки">
+            <div id="object-shield-protection"></div>
+          </section>
+        </main>
+        <aside class="aside">
+          <div data-m2-manager-slot></div>
+        </aside>
+      </div>
+    </div>
+
     <!-- participants -->
     <div class="page-view" data-view="participants">
       <div class="body">
@@ -660,29 +715,6 @@
               <div><div class="pstat-k">Идентификация</div><div class="pstat-v" style="color:var(--ok)">Готова ✓</div></div>
               <div><div class="pstat-k">УКЭП</div><div class="pstat-v" style="color:var(--ok)">Готов ✓</div></div>
               <div><div class="pstat-k">Расчёты</div><div class="pstat-v">Не выбраны</div></div>
-            </div>
-          </section>
-          <section class="card object-shield-block" id="object-shield-block" aria-label="Объект и защита сделки">
-            <div class="object-shield-summary" id="object-shield-summary"></div>
-            <div class="object-shield-protection-wrap" id="object-shield-protection"></div>
-            <div class="object-shield-dkp-wrap">
-              <div class="object-shield-dkp">
-                <div class="object-shield-dkp-main">
-                  <p class="object-shield-dkp-title">Проект ДКП</p>
-                  <p class="object-shield-dkp-meta">12 400 000 ₽ · готов к подписанию</p>
-                </div>
-                <div class="object-shield-dkp-actions">
-                  <button type="button" class="btn btn-g">Отправить участникам</button>
-                  <button type="button" class="btn btn-g" data-goto="dkp-preparation">Подготовка ДКП</button>
-                </div>
-              </div>
-            </div>
-            <div class="object-shield-expand" id="object-shield-toggle" role="button" tabindex="0" aria-expanded="false" aria-controls="object-shield-body">
-              <span class="object-shield-expand-title">Проверка и документы</span>
-              <div class="object-shield-expand-meta" id="object-shield-expand-meta"></div>
-            </div>
-            <div class="object-shield-body" id="object-shield-body">
-              <div id="object-shield-content"></div>
             </div>
           </section>
         </main>
@@ -968,6 +1000,20 @@
   </section>
 </template>
 
+<div class="modal-overlay" id="memo-modal" role="dialog" aria-modal="true" aria-labelledby="memo-modal-title" hidden>
+  <div class="modal">
+    <div class="modal-head">
+      <h2 class="modal-title" id="memo-modal-title">Памятка по сделке</h2>
+      <button type="button" class="modal-close" id="memo-modal-close" aria-label="Закрыть">×</button>
+    </div>
+    <p class="modal-body">Здесь будет памятка о том, как проходит дистанционная сделка на вторичном рынке с М2: этапы, роли сторон, сроки и что нужно подготовить. Её можно скачать в PDF и отправить участникам.</p>
+    <div class="modal-actions">
+      <button type="button" class="btn btn-p" id="memo-modal-download">Скачать памятку</button>
+      <button type="button" class="btn btn-g" id="memo-modal-dismiss">Закрыть</button>
+    </div>
+  </div>
+</div>
+
 <script>
 const DEAL = { id:"4521", address:"ул. Лесная, 14, кв. 47", city:"Москва", price:"12 400 000 ₽" };
 const DEALS_LIST = [
@@ -987,11 +1033,23 @@ const OBJECT_SHIELD = {
   address: "ул. Лесная, 14, кв. 47",
   type: "Квартира",
   area: "52,4 м²",
+  objectStatus: "Одобрено для покупки",
+  lawyerNote: "Юристы М2 проверили объект и документы всех участников",
   checkLabel: "Проверено",
   checkPill: "grp-done",
   protectionLabel: "Не подключена",
   protectionPill: "grp-pend",
   risks: 1,
+  dkp: {
+    price: "12 400 000 ₽",
+    status: "Готов к подписанию",
+    steps: [
+      { label: "Документы от сторон", state: "done" },
+      { label: "Проверка комплектности", state: "done" },
+      { label: "Формирование договора", state: "done" },
+      { label: "Согласование с участниками", state: "cur" },
+    ],
+  },
   checks: [
     { label:"Выписка ЕГРН", status:"done" },
     { label:"Обременения", status:"done" },
@@ -1048,9 +1106,10 @@ const ROUTE_STEPS = [
 
 let openRouteStep = -1;
 
-const WORKSPACE = ['overview','participants','payments','signing','registration','registration-suspended','payment-methods','dkp-preparation'];
+const WORKSPACE = ['overview','object','participants','payments','signing','registration','registration-suspended','payment-methods','dkp-preparation'];
 const SUMMARY = {
   overview: { pill:'pill-warn', pillText:'Подписание — требует внимания', stage:'Подписание', next:'Расчёты', blocker:'УКЭП покупателя не готова', action:'Контроль до 3 июня', block:true },
+  object: { pill:'pill-ok', pillText:'Одобрено для покупки', stage:'Подписание', next:'Расчёты', blocker:'1 замечание по адресу', action:'Уточнить у продавца', block:true },
   participants: { pill:'pill-warn', pillText:'Готовность: 29%', stage:'Подписание', next:'Расчёты', blocker:'Идентификация покупателя', action:'Напомнить сегодня', block:true },
   payments: { pill:'pill-err', pillText:'Расчёты не выбраны', stage:'Подписание', next:'Регистрация', blocker:'Инструмент не выбран', action:'Предложить СБР сторонам', block:true },
   signing: { pill:'pill-act', pillText:'● Сессия идёт', stage:'Подписание', next:'Регистрация', blocker:'—', action:'Вернуться в комнату', block:false },
@@ -1064,6 +1123,7 @@ let timerId = null;
 
 const NAV_LABELS = {
   overview: 'Обзор сделки',
+  object: 'Объект',
   participants: 'Участники',
   payments: 'Расчёты',
   'payment-methods': 'Расчёты',
@@ -1119,10 +1179,22 @@ function chkStatusMark(status) {
 function renderObjectShield() {
   const o = OBJECT_SHIELD;
   const docsDone = CHECKLIST.filter(c => c.status === 'done' || c.status === 'ok').length;
-  const riskLabel = o.risks === 1 ? '1 риск' : `${o.risks} риска`;
+  const riskLabel = o.risks === 1 ? '1 замечание' : `${o.risks} замечания`;
 
   document.getElementById('object-shield-summary').innerHTML =
     `<span class="object-addr">${o.address}</span><span>·</span><span>${o.type}</span><span>·</span><span>${o.area}</span>`;
+
+  document.getElementById('object-docs-bar-main').innerHTML = `
+    <div class="object-docs-bar-title">Документы участников</div>
+    <p class="object-docs-bar-sub">${o.lawyerNote}</p>`;
+
+  document.getElementById('object-docs-bar-meta').innerHTML =
+    `<span class="grp-pill grp-cur">${docsDone} из ${CHECKLIST.length}</span>` +
+    (o.risks ? `<span class="grp-pill grp-warn">${riskLabel}</span>` : '');
+
+  document.getElementById('object-dkp-row').innerHTML = `
+    <p class="object-dkp-price">${o.dkp.price}</p>
+    <span class="grp-pill grp-done">${o.dkp.status}</span>`;
 
   const checksRows = o.checks.map(c => `<tr>
     <td class="chk-icon-cell">${chkStatusMark(c.status)}</td>
@@ -1146,27 +1218,22 @@ function renderObjectShield() {
       <button type="button" class="btn btn-p">${o.protection.cta}</button>
     </div>`;
 
-  document.getElementById('object-shield-expand-meta').innerHTML =
-    `<span class="grp-pill grp-done">Проверка: ${o.checkLabel}</span>` +
-    `<span class="grp-pill grp-cur">${docsDone} из ${CHECKLIST.length}</span>` +
-    (o.risks ? `<span class="grp-pill grp-warn">${riskLabel}</span>` : '');
-
   document.getElementById('object-shield-content').innerHTML = `
     <div class="chk-group">
-      <div class="chk-group-h"><span>Проверка объекта</span><span class="grp-pill grp-done">Готова</span></div>
+      <div class="chk-group-h"><span>Проверка объекта юристами</span><span class="grp-pill grp-done">${o.checkLabel}</span></div>
       <div class="chk-group-body open">
         <table class="chk-table compact"><thead><tr><th></th><th>Пункт</th><th>Комментарий</th></tr></thead><tbody>${checksRows}</tbody></table>
       </div>
     </div>
     <div class="chk-group">
-      <div class="chk-group-h"><span>Документы</span><span class="grp-pill grp-cur">${docsDone} из ${CHECKLIST.length}</span></div>
+      <div class="chk-group-h"><span>Документы участников</span><span class="grp-pill grp-cur">${docsDone} из ${CHECKLIST.length}</span></div>
       <div class="chk-group-body open">
-        <table class="chk-table compact"><thead><tr><th></th><th>Документ</th><th>Флаг</th></tr></thead><tbody>${docsRows}</tbody></table>
+        <table class="chk-table compact"><thead><tr><th></th><th>Документ</th><th>Замечание</th></tr></thead><tbody>${docsRows}</tbody></table>
       </div>
     </div>`;
 
   const block = document.getElementById('object-shield-block');
-  const toggle = document.getElementById('object-shield-toggle');
+  const toggle = document.getElementById('object-docs-toggle');
   const setOpen = open => {
     block.classList.toggle('is-open', open);
     toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
@@ -1417,6 +1484,41 @@ function initRegSuspend() {
   });
 }
 
+function openMemoModal() {
+  const modal = document.getElementById('memo-modal');
+  if (!modal) return;
+  modal.hidden = false;
+  modal.classList.add('is-open');
+  document.getElementById('memo-modal-close')?.focus();
+}
+
+function closeMemoModal() {
+  const modal = document.getElementById('memo-modal');
+  if (!modal) return;
+  modal.classList.remove('is-open');
+  modal.hidden = true;
+  document.getElementById('summary-help-btn')?.focus();
+}
+
+function initMemoModal() {
+  const modal = document.getElementById('memo-modal');
+  const openBtn = document.getElementById('summary-help-btn');
+  if (!modal || !openBtn) return;
+
+  openBtn.addEventListener('click', openMemoModal);
+  document.getElementById('memo-modal-close')?.addEventListener('click', closeMemoModal);
+  document.getElementById('memo-modal-dismiss')?.addEventListener('click', closeMemoModal);
+  document.getElementById('memo-modal-download')?.addEventListener('click', () => {
+    alert('В прототипе: скачивание PDF-памятки.');
+  });
+  modal.addEventListener('click', e => {
+    if (e.target === modal) closeMemoModal();
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && modal.classList.contains('is-open')) closeMemoModal();
+  });
+}
+
 function initRegUrgency() {
   const btn = document.getElementById('reg-urgency-btn');
   const forecast = document.getElementById('reg-sbr-forecast');
@@ -1430,7 +1532,7 @@ function initRegUrgency() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  renderDeals(); renderObjectShield(); renderAggregator(); initRoute(); mountM2ManagerCards(); initRegUrgency(); initRegSuspend();
+  renderDeals(); renderObjectShield(); renderAggregator(); initRoute(); mountM2ManagerCards(); initMemoModal(); initRegUrgency(); initRegSuspend();
   document.getElementById('deal-menu-toggle')?.addEventListener('click', e => {
     e.stopPropagation();
     toggleDealMenu();
