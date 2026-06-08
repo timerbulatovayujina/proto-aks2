@@ -361,13 +361,19 @@
     .progress-time { font-size: 11px; color: var(--faint); }
     .progress-now { font-size: 11px; color: var(--accent); font-weight: 500; }
     .dkp-prep-layout { max-width: 720px; display: flex; flex-direction: column; gap: 10px; margin-top: 14px; }
-    .dkp-ready-card { margin-bottom: 0; flex-direction: column; align-items: stretch; gap: 12px; }
-    .dkp-ready-card-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .dkp-contract-card { border-color: #b2ccff; background: var(--accent-soft); padding: 16px 18px; }
+    .dkp-contract-title { margin: 0; font-size: 16px; font-weight: 600; line-height: 1.3; }
+    .dkp-contract-sub { margin: 4px 0 0; font-size: 12px; color: var(--muted); }
+    .dkp-contract-actions { margin-top: 14px; display: flex; flex-direction: column; gap: 8px; }
+    .dkp-contract-actions-secondary { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .dkp-contract-actions-secondary .btn { justify-content: center; width: 100%; }
     .dkp-docs-details { padding: 0; overflow: hidden; }
-    .dkp-docs-details > summary { list-style: none; cursor: pointer; padding: 12px 14px; font-size: 13px; font-weight: 600; color: var(--text); user-select: none; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .dkp-docs-details > summary { list-style: none; cursor: pointer; padding: 12px 14px; font-size: 13px; font-weight: 600; color: var(--text); user-select: none; display: flex; align-items: center; gap: 10px; }
     .dkp-docs-details > summary::-webkit-details-marker { display: none; }
     .dkp-docs-details > summary:hover { background: var(--subtle); }
-    .dkp-docs-summary { font-size: 11px; font-weight: 500; color: var(--muted); }
+    .dkp-docs-summary { margin-left: auto; font-size: 11px; font-weight: 500; color: var(--muted); }
+    .dkp-docs-chevron { width: 16px; height: 16px; color: var(--faint); flex-shrink: 0; transition: transform 0.15s ease; }
+    .dkp-docs-details[open] > summary .dkp-docs-chevron { transform: rotate(180deg); }
     .dkp-docs-rows { list-style: none; margin: 0; padding: 0 14px 12px; border-top: 1px solid var(--line); }
     .dkp-docs-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 9px 0; font-size: 13px; border-bottom: 1px solid var(--line); }
     .dkp-docs-row:last-child { border-bottom: none; }
@@ -634,7 +640,7 @@
             <div class="object-dkp-row" id="object-dkp-row"></div>
             <div class="object-dkp-actions">
               <button type="button" class="btn btn-g">Отправить участникам</button>
-              <button type="button" class="btn btn-g" data-goto="dkp-preparation">Подготовка ДКП</button>
+              <button type="button" class="btn btn-g" data-goto="dkp-preparation">Открыть ДКП</button>
             </div>
           </section>
           <section class="card object-protection-card" id="object-protection-block" aria-label="Защита сделки">
@@ -782,36 +788,18 @@
     <div class="page-view" data-view="dkp-preparation">
       <div class="body pay-cmp-layout">
         <main class="main">
-          <p><button type="button" class="link" data-goto="signing">← Подписание</button></p>
-          <h1 style="margin:14px 0 0;font-size:22px;font-weight:600">Подготовка ДКП</h1>
+          <p><button type="button" class="link" id="dkp-back-btn" data-goto="signing">← Подписание</button></p>
+          <h1 style="margin:14px 0 0;font-size:22px;font-weight:600">Договор купли-продажи</h1>
           <p class="deals-sub">Сделка №4521 · ул. Лесная, 14, кв. 47</p>
           <div class="dkp-prep-layout">
-            <div class="sbr-step is-cur dkp-ready-card">
-              <strong>Готовый проект ДКП</strong>
-              <div class="dkp-ready-card-actions">
-                <button type="button" class="btn btn-g">Отправить участникам</button>
-                <button type="button" class="btn btn-p">Открыть ДКП</button>
-              </div>
-            </div>
-            <section class="card">
-              <div class="card-h">Этапы подготовки</div>
-              <ol class="sbr-steps">
-                <li class="sbr-step is-done"><strong>Документы от сторон</strong></li>
-                <li class="sbr-step is-done"><strong>Проверка комплектности</strong></li>
-                <li class="sbr-step is-done"><strong>Пакет исходных данных</strong></li>
-                <li class="sbr-step is-done"><strong>Этап подготовки ДКП</strong></li>
-                <li class="sbr-step is-done"><strong>Формирование договора</strong></li>
-              </ol>
-            </section>
-            <details class="card dkp-docs-details">
-              <summary>Документы <span class="dkp-docs-summary">5 документов · все проверены</span></summary>
-              <ul class="dkp-docs-rows">
-                <li class="dkp-docs-row is-primary"><span class="name">Проект ДКП · 12 400 000 ₽</span><span class="status">Готов</span></li>
-                <li class="dkp-docs-row is-ok"><span class="name">Паспорт покупателя</span><span class="status">Проверен</span></li>
-                <li class="dkp-docs-row is-ok"><span class="name">Паспорт продавца</span><span class="status">Проверен</span></li>
-                <li class="dkp-docs-row is-ok"><span class="name">Выписка ЕГРН</span><span class="status">Проверен</span></li>
-                <li class="dkp-docs-row is-ok"><span class="name">Справка об обременениях</span><span class="status">Проверен</span></li>
-              </ul>
+            <section class="card dkp-contract-card" id="dkp-contract-block" aria-label="Проект ДКП"></section>
+            <details class="card dkp-docs-details" id="dkp-docs-accordion">
+              <summary>
+                <span>Документы</span>
+                <span class="dkp-docs-summary" id="dkp-docs-summary-text"></span>
+                <svg class="dkp-docs-chevron" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M4.5 6l3.5 3.5L11.5 6z"/></svg>
+              </summary>
+              <ul class="dkp-docs-rows" id="dkp-docs-list"></ul>
             </details>
           </div>
         </main>
@@ -1016,6 +1004,17 @@ const OBJECT_SHIELD = {
     cta: "Предложить покупателю",
   },
 };
+const DKP_PREP = {
+  title: "Проект ДКП",
+  meta: "Подготовлен М2 · Проверен · 23 мая",
+  documents: [
+    { name: "Проект ДКП · 12 400 000 ₽", status: "Готов", kind: "primary" },
+    { name: "Паспорт покупателя", status: "Проверен", kind: "ok" },
+    { name: "Паспорт продавца", status: "Проверен", kind: "ok" },
+    { name: "Выписка ЕГРН", status: "Проверен", kind: "ok" },
+    { name: "Справка об обременениях", status: "Проверен", kind: "ok" },
+  ],
+};
 const PAYMENT_METHODS = [
   { id:"sbr", label:"СБР М2", price:"12 400 ₽", days:"1 день", limit:"До 50 млн", risk:"Раскрытие по факту регистрации, гарантия М2", recommended:true },
   { id:"sbr-early", label:"Раннее размещение СБР М2", price:"0 ₽", days:"1 день", limit:"До 50 млн", risk:"Раскрытие по факту регистрации, гарантия М2", recommended:false, isNew:true },
@@ -1071,6 +1070,8 @@ const SUMMARY = {
 let selectedPayment = null;
 let sessionMinutes = 12;
 let timerId = null;
+let activeView = 'deals';
+let dkpPrepReturnTo = 'signing';
 
 const NAV_LABELS = {
   overview: 'Обзор сделки',
@@ -1126,6 +1127,46 @@ function chkStatusMark(status) {
   const m = { done:'done', warn:'block', ok:'done', na:'pend' };
   const t = { done:'✓', warn:'!', ok:'✓', na:'–' };
   return `<span class="chk-mark ${m[status]}">${t[status]}</span>`;
+}
+
+function updateDkpBackLink() {
+  const btn = document.getElementById('dkp-back-btn');
+  if (!btn) return;
+  const target = dkpPrepReturnTo === 'object' ? 'object' : 'signing';
+  const label = NAV_LABELS[target] || target;
+  btn.dataset.goto = target;
+  btn.textContent = `← ${label}`;
+}
+
+function renderDkpPrep() {
+  const state = DKP_PREP;
+  updateDkpBackLink();
+  const block = document.getElementById("dkp-contract-block");
+  if (block) {
+    block.innerHTML = `
+      <h2 class="dkp-contract-title">${state.title}</h2>
+      <p class="dkp-contract-sub">${state.meta}</p>
+      <div class="dkp-contract-actions">
+        <div class="dkp-contract-actions-secondary">
+          <button type="button" class="btn btn-g" id="dkp-open-btn">Открыть ДКП</button>
+          <button type="button" class="btn btn-g" id="dkp-resend-btn">Скачать ДКП</button>
+        </div>
+      </div>`;
+  }
+
+  const allVerified = state.documents.every(d => d.status === "Проверен" || d.status === "Готов");
+  const summaryEl = document.getElementById("dkp-docs-summary-text");
+  if (summaryEl) summaryEl.textContent = `· ${state.documents.length} · ${allVerified ? "все проверены" : "есть замечания"}`;
+
+  const listEl = document.getElementById("dkp-docs-list");
+  if (listEl) {
+    listEl.innerHTML = state.documents.map(d =>
+      `<li class="dkp-docs-row${d.kind === "primary" ? " is-primary" : d.kind === "ok" ? " is-ok" : ""}">
+        <span class="name">${d.name}</span>
+        <span class="status">${d.status}</span>
+      </li>`
+    ).join("");
+  }
 }
 
 function renderObjectShield() {
@@ -1384,6 +1425,11 @@ function updateSummary(name) {
 }
 
 function showView(name) {
+  if (name === 'dkp-preparation' && activeView !== 'dkp-preparation') {
+    dkpPrepReturnTo = activeView === 'object' ? 'object' : 'signing';
+  }
+  activeView = name;
+
   const ws = WORKSPACE.includes(name) && name !== 'payment-methods' && name !== 'dkp-preparation';
   const shell = document.getElementById('app-shell');
   shell.classList.toggle('in-workspace', ws);
@@ -1396,6 +1442,7 @@ function showView(name) {
   document.querySelector('.nav-deals-link')?.classList.toggle('is-active', name === 'deals');
 
   if (ws) updateSummary(name === 'payment-methods' ? 'payments' : name === 'dkp-preparation' ? 'signing' : name);
+  if (name === 'dkp-preparation') renderDkpPrep();
   if (name === 'signing') {
     sessionMinutes = 12;
     const upd = () => {
@@ -1471,7 +1518,7 @@ function initRegFast() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  renderDeals(); renderObjectShield(); renderAggregator(); initRoute(); mountM2ManagerCards(); initMemoModal(); initRegFast();
+  renderDeals(); renderObjectShield(); renderDkpPrep(); renderAggregator(); initRoute(); mountM2ManagerCards(); initMemoModal(); initRegFast();
   document.getElementById('deal-menu-toggle')?.addEventListener('click', e => {
     e.stopPropagation();
     toggleDealMenu();
