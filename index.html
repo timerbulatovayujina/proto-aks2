@@ -80,7 +80,14 @@
     .cell-k { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: var(--faint); }
     .cell-v { font-size: 13px; font-weight: 600; margin-top: 4px; }
     .cell.block { background: var(--err-bg); } .cell.block .cell-v { color: var(--err); font-size: 12px; }
-    .cell.act .cell-v { color: var(--accent); }
+    .cell.act .cell-v-static { font-size: 13px; font-weight: 500; margin-top: 4px; color: var(--muted); }
+    .summary-action-link {
+      display: inline-flex; align-items: center; gap: 4px; margin-top: 4px; padding: 0; border: none; background: none;
+      font: 600 13px/1.35 var(--sans); color: var(--accent); text-decoration: underline; text-underline-offset: 2px;
+      cursor: pointer; text-align: left; max-width: 100%;
+    }
+    .summary-action-link:hover { color: #1348a8; }
+    .summary-action-link::after { content: '→'; text-decoration: none; font-weight: 500; flex-shrink: 0; }
 
     .pill { font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 20px; white-space: nowrap; }
     .pill-ok { background: var(--ok-bg); color: var(--ok); }
@@ -340,14 +347,18 @@
     .signing-main { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
     .signing-aside { position: sticky; top: 108px; display: flex; flex-direction: column; gap: 10px; }
     .signing-main .session-banner { margin-bottom: 0; }
-    .doc-card { border: 1px solid var(--line); border-radius: var(--r); padding: 14px 16px; margin-bottom: 10px; }
+    .doc-card { border: 1px solid var(--line); border-radius: var(--r); padding: 14px 16px; margin-bottom: 10px; background: var(--surface); }
     .doc-card-action { margin-top: 12px; }
     .doc-card.is-current { border-color: #b2ccff; background: var(--accent-soft); }
+    .doc-card.is-muted strong { color: var(--muted); }
     .doc-party-line { margin: 0 0 4px; font-size: 12px; }
     .doc-card .doc-party-line:first-of-type { margin-top: 8px; }
     .doc-party-label { color: var(--text); font-weight: 600; }
+    .doc-card.is-muted .doc-party-label { color: var(--muted); font-weight: 500; }
     .doc-party-v.ok { color: var(--ok); font-weight: 600; }
     .doc-party-v.cur { color: var(--accent); font-weight: 600; }
+    .doc-card.is-muted .doc-party-v.ok { color: var(--ok); font-weight: 600; }
+    .doc-card.is-muted .doc-party-v.cur { color: var(--accent); font-weight: 600; }
     .room-person { display: flex; gap: 10px; padding: 10px 0; border-top: 1px solid var(--line); }
     .room-av { width: 36px; height: 36px; border-radius: 50%; background: var(--subtle); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; }
     .progress-steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
@@ -408,11 +419,19 @@
     .reg-forecast-badge.risk { background: var(--warn-bg); color: var(--warn); }
     .reg-forecast-badge.urgent { background: var(--warn-bg); color: var(--warn); }
     .reg-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    .reg-fast-card { margin-top: 12px; }
-    .reg-fast-card p { margin: 0 0 12px; font-size: 13px; color: var(--muted); line-height: 1.5; }
-    .reg-fast-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+    .reg-fast-card {
+      margin-top: 12px; padding: 16px 18px;
+      border-color: #b2ccff; background: var(--surface);
+    }
+    .reg-fast-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
+    .reg-fast-head .card-h { margin-bottom: 0; }
+    .reg-fast-price { font-size: 16px; font-weight: 700; color: var(--text); line-height: 1.25; flex-shrink: 0; }
+    .reg-fast-context { margin: 0 0 12px; font-size: 13px; line-height: 1.5; color: var(--text); }
+    .reg-fast-context .dim { color: var(--muted); }
+    .reg-fast-context .accent { color: var(--text); font-weight: 700; }
+    .reg-fast-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
     .reg-fast-meta .grp-pill { font-size: 11px; }
-    .reg-fast-card .btn.is-active { background: var(--warn-bg); color: var(--warn); border-color: #fedf89; }
+    .reg-fast-card .btn.is-active { background: var(--accent-soft); color: var(--accent); border-color: #b2ccff; }
 
     /* Scenario */
     .chk-group { margin-bottom: 14px; }
@@ -821,11 +840,11 @@
             <p class="note" style="margin:8px 0 14px">Все участники в видео-комнате. Сессию ведёт Михайлова А. С.</p>
             <button type="button" class="btn btn-p">Вернуться в комнату</button>
           </section>
-          <div class="doc-card is-current"><strong>ДКП 12 400 000 ₽ · СБР №12345</strong>
+          <div class="doc-card is-muted"><strong>ДКП 12 400 000 ₽ · СБР №12345</strong>
             <p class="doc-party-line"><span class="doc-party-label">Покупатель:</span> <span class="doc-party-v ok">✓ Подписан в 15:08</span></p>
             <p class="doc-party-line"><span class="doc-party-label">Продавец:</span> <span class="doc-party-v cur">● Подписывает сейчас</span></p>
             <button type="button" class="btn btn-g doc-card-action" data-goto="dkp-preparation">Открыть ДКП</button></div>
-          <div class="doc-card"><strong>Заявление в Росреестр</strong> <span style="font-size:10px;color:var(--faint)">Ожидает</span>
+          <div class="doc-card is-muted"><strong>Заявление в Росреестр</strong> <span style="font-size:10px;color:var(--faint)">Ожидает</span>
             <p class="note">Откроется автоматически после подписания ДКП, подписывается обеими сторонами</p></div>
         </div>
         <aside class="signing-aside">
@@ -863,9 +882,13 @@
             </div>
           </section>
           <section class="card reg-fast-card">
-            <div class="card-h">Ускоренная регистрация</div>
+            <div class="reg-fast-head">
+              <div class="card-h">Ускоренная регистрация</div>
+              <span class="reg-fast-price">9 900 ₽</span>
+            </div>
+            <p class="reg-fast-context" id="reg-fast-context"><span class="dim">Ожидание — до 28 мая (6 дней).</span> <span class="accent">Ускоренная — завтра</span></p>
             <div class="reg-fast-meta">
-              <span class="grp-pill grp-warn">1 рабочий день</span>
+              <span class="grp-pill grp-cur">1 рабочий день</span>
               <span class="grp-pill grp-pend">Пошлина ×2</span>
             </div>
             <button type="button" class="btn btn-g" id="reg-fast-btn" aria-pressed="false">Запросить ускоренную регистрацию</button>
@@ -1058,13 +1081,13 @@ let openRouteStep = -1;
 
 const WORKSPACE = ['overview','object','participants','payments','signing','registration','registration-suspended','payment-methods','dkp-preparation'];
 const SUMMARY = {
-  overview: { pill:'pill-warn', pillText:'Подписание — требует внимания', stage:'Подписание', next:'Расчёты', blocker:'УКЭП покупателя не готова', action:'УКЭП покупателя до 3 июня', block:true },
-  object: { pill:'pill-ok', pillText:'Одобрено для покупки', stage:'Подписание', next:'Расчёты', blocker:'1 замечание по адресу', action:'Уточнить у продавца', block:true },
-  participants: { pill:'pill-warn', pillText:'Готовность: 29%', stage:'Подписание', next:'Расчёты', blocker:'Идентификация покупателя', action:'Напомнить сегодня', block:true },
-  payments: { pill:'pill-err', pillText:'Расчёты не выбраны', stage:'Подписание', next:'Регистрация', blocker:'Инструмент не выбран', action:'Предложить СБР сторонам', block:true },
-  signing: { pill:'pill-act', pillText:'● Сессия идёт', stage:'Подписание', next:'Регистрация', blocker:'—', action:'Вернуться в комнату', block:false },
+  overview: { pill:'pill-warn', pillText:'Подписание — требует внимания', stage:'Подписание', next:'Расчёты', blocker:'УКЭП покупателя не готова', action:'УКЭП покупателя до 3 июня', actionGoto:'participants', block:true },
+  object: { pill:'pill-ok', pillText:'Одобрено для покупки', stage:'Подписание', next:'Расчёты', blocker:'1 замечание по адресу', action:'Уточнить у продавца', actionGoto:'object', block:true },
+  participants: { pill:'pill-warn', pillText:'Готовность: 29%', stage:'Подписание', next:'Расчёты', blocker:'Идентификация покупателя', action:'Напомнить сегодня', actionGoto:'participants', block:true },
+  payments: { pill:'pill-err', pillText:'Расчёты не выбраны', stage:'Подписание', next:'Регистрация', blocker:'Инструмент не выбран', action:'Предложить СБР сторонам', actionGoto:'payment-methods', block:true },
+  signing: { pill:'pill-act', pillText:'● Сессия идёт', stage:'Подписание', next:'Регистрация', blocker:'—', action:'Вернуться в комнату', actionGoto:'signing', block:false },
   registration: { pill:'pill-ok', pillText:'По плану', stage:'Регистрация', next:'Расчёты', blocker:'—', action:'Действий не требуется', block:false },
-  'registration-suspended': { pill:'pill-err', pillText:'⚠ Приостановлена', stage:'Регистрация', next:'Расчёты', blocker:'Расхождение адреса в ЕГРН', action:'Уточнить адрес у продавца', block:true },
+  'registration-suspended': { pill:'pill-err', pillText:'⚠ Приостановлена', stage:'Регистрация', next:'Расчёты', blocker:'Расхождение адреса в ЕГРН', action:'Уточнить адрес у продавца', actionGoto:'object', block:true },
 };
 
 let selectedPayment = null;
@@ -1354,12 +1377,6 @@ function renderRouteDetail() {
     </div>
     ${renderRouteChecklist(step)}
     ${cta}`;
-  detail.querySelectorAll('[data-goto]').forEach(btn => {
-    btn.addEventListener('click', e => {
-      e.preventDefault();
-      showView(btn.dataset.goto);
-    });
-  });
 }
 
 function renderRoute() {
@@ -1411,6 +1428,13 @@ function initRoute() {
   renderRoute();
 }
 
+function renderSummaryAction(s) {
+  if (!s.actionGoto) {
+    return `<div class="cell-v-static">${s.action}</div>`;
+  }
+  return `<button type="button" class="summary-action-link" data-goto="${s.actionGoto}">${s.action}</button>`;
+}
+
 function updateSummary(name) {
   const s = SUMMARY[name];
   if (!s) return;
@@ -1421,7 +1445,7 @@ function updateSummary(name) {
     <div class="cell"><div class="cell-k">Этап</div><div class="cell-v">${s.stage}</div></div>
     <div class="cell"><div class="cell-k">Следующий</div><div class="cell-v">${s.next}</div></div>
     <div class="cell${s.block?' block':''}"><div class="cell-k">Блокер</div><div class="cell-v">${s.blocker}</div></div>
-    <div class="cell act"><div class="cell-k">Действие</div><div class="cell-v">${s.action}</div></div>`;
+    <div class="cell act"><div class="cell-k">Действие</div>${renderSummaryAction(s)}</div>`;
 }
 
 function showView(name) {
@@ -1506,14 +1530,23 @@ function initRegFast() {
   const btn = document.getElementById('reg-fast-btn');
   const forecast = document.getElementById('reg-sbr-forecast');
   const bannerForecast = document.getElementById('reg-forecast-date');
+  const context = document.getElementById('reg-fast-context');
   if (!btn) return;
+
+  const setRegFastContext = active => {
+    if (!context) return;
+    context.innerHTML = active
+      ? '<span class="accent">Ускоренная — завтра</span> <span class="dim">· запрос отправлен</span>'
+      : '<span class="dim">Ожидание — до 28 мая (6 дней).</span> <span class="accent">Ускоренная — завтра</span>';
+  };
 
   btn.addEventListener('click', () => {
     const active = btn.classList.toggle('is-active');
     btn.setAttribute('aria-pressed', active ? 'true' : 'false');
     btn.textContent = active ? 'Ускоренная регистрация запрошена' : 'Запросить ускоренную регистрацию';
-    if (forecast) forecast.textContent = active ? '26 мая · ускоренная' : '28 мая · через 6 дней';
-    if (bannerForecast) bannerForecast.textContent = active ? 'Прогноз — 26 мая' : 'Прогноз — 28 мая';
+    setRegFastContext(active);
+    if (forecast) forecast.textContent = active ? 'завтра · ускоренная' : '28 мая · через 6 дней';
+    if (bannerForecast) bannerForecast.textContent = active ? 'Прогноз — завтра' : 'Прогноз — 28 мая';
   });
 }
 
@@ -1526,12 +1559,12 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('click', e => {
     if (!e.target.closest('.deal-menu-mobile')) closeDealMenu();
   });
-  document.querySelectorAll('[data-page],[data-goto]').forEach(el => {
-    el.addEventListener('click', e => {
-      e.preventDefault();
-      showView(el.dataset.page || el.dataset.goto);
-      closeDealMenu();
-    });
+  document.addEventListener('click', e => {
+    const el = e.target.closest('[data-page],[data-goto]');
+    if (!el) return;
+    e.preventDefault();
+    showView(el.dataset.page || el.dataset.goto);
+    closeDealMenu();
   });
   document.querySelectorAll('.filters .chip').forEach(c => c.addEventListener('click', () => {
     document.querySelectorAll('.filters .chip').forEach(x => x.classList.remove('is-active'));
