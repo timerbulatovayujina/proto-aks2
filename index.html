@@ -74,7 +74,7 @@
     .summary-head-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
     .summary-help-btn { padding: 6px 12px; font-size: 12px; font-weight: 500; white-space: nowrap; }
     .summary-meta { font-size: 11px; color: var(--faint); margin-top: 3px; font-family: var(--mono); }
-    .summary-row { display: grid; grid-template-columns: repeat(5, 1fr); }
+    .summary-row { display: grid; grid-template-columns: repeat(4, 1fr); }
     .cell { padding: 10px 14px; border-right: 1px solid var(--line); min-height: 54px; }
     .cell:last-child { border-right: none; }
     .cell-k { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: var(--faint); }
@@ -381,7 +381,6 @@
     .reg-top-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(200px, 260px); gap: 12px; }
     .reg-main-col { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
     .reg-main-col .session-banner { margin-bottom: 0; }
-    .reg-main-col .reg-layout { margin-top: 4px; }
     .reg-aside-col { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
     .reg-status-hero { border-radius: var(--r); padding: 16px 18px; border: 1px solid var(--line); background: var(--surface); }
     .reg-status-hero.is-warn { border-color: #fedf89; background: var(--warn-bg); }
@@ -401,40 +400,12 @@
     .reg-forecast-badge.plan { background: var(--ok-bg); color: var(--ok); }
     .reg-forecast-badge.risk { background: var(--warn-bg); color: var(--warn); }
     .reg-forecast-badge.urgent { background: var(--warn-bg); color: var(--warn); }
-    .reg-urgency-head { margin-bottom: 4px; }
-    .reg-urgency-btn {
-      width: 100%; margin-top: 0; justify-content: center;
-    }
-    .reg-urgency-btn.is-active { background: #edf0f4; color: var(--warn); border-color: #fedf89; }
-    .reg-urgency-hint { margin: 6px 0 0; font-size: 12px; color: var(--muted); }
     .reg-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    .reg-suspend-banner {
-      border: 1px solid #fecaca; background: var(--surface);
-      border-radius: var(--r); padding: 16px 18px;
-    }
-    .reg-suspend-head {
-      display: flex; justify-content: space-between; align-items: center;
-      gap: 12px; margin-bottom: 10px;
-    }
-    .reg-suspend-eyebrow {
-      font-size: 11px; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.02em; color: var(--err);
-    }
-    .reg-suspend-deadline {
-      font-size: 12px; font-weight: 600; color: var(--err); white-space: nowrap;
-    }
-    .reg-suspend-banner h2 { margin: 0 0 12px; font-size: 20px; font-weight: 600; line-height: 1.3; }
-    .reg-registrar-comment {
-      background: var(--subtle); border-left: 3px solid var(--err);
-      border-radius: 0 8px 8px 0; padding: 12px 14px; margin-bottom: 14px;
-    }
-    .reg-registrar-comment-h {
-      font-size: 10px; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.04em; color: var(--err); margin-bottom: 8px;
-    }
-    .reg-registrar-comment p { margin: 0; font-size: 13px; color: var(--text); line-height: 1.45; }
-    .reg-suspend-actions { display: flex; gap: 8px; flex-wrap: wrap; }
-    .reg-suspend-intro { margin: 0; }
+    .reg-fast-card { margin-top: 12px; }
+    .reg-fast-card p { margin: 0 0 12px; font-size: 13px; color: var(--muted); line-height: 1.5; }
+    .reg-fast-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+    .reg-fast-meta .grp-pill { font-size: 11px; }
+    .reg-fast-card .btn.is-active { background: var(--warn-bg); color: var(--warn); border-color: #fedf89; }
 
     /* Scenario */
     .chk-group { margin-bottom: 14px; }
@@ -895,33 +866,20 @@
             <div class="session-live is-ok"><span class="session-live-dot"></span> Регистрация в работе</div>
             <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px">
               <h2>Ожидаем решение регистратора</h2>
-              <span style="font-size:12px;color:var(--muted);white-space:nowrap">Прогноз — 28 мая</span>
+              <span id="reg-forecast-date" style="font-size:12px;color:var(--muted);white-space:nowrap">Прогноз — 28 мая</span>
             </div>
             <p class="note" style="margin:8px 0 14px">Документы у Сидоровой О. П. (Росреестр). КУВД 99/123/2025 · подано 24 мая.</p>
             <div style="display:flex;gap:8px;flex-wrap:wrap">
               <button type="button" class="btn btn-p">Связаться с регистратором</button>
-              <button type="button" class="btn btn-g" id="reg-suspend-simulate">Симулировать приостановку</button>
             </div>
           </section>
-          <div class="reg-layout">
-            <section class="card"><div class="card-h">Делает М2</div><ul style="margin:0;padding-left:18px;color:var(--muted);font-size:13px"><li>Мониторит статус в Росреестр</li><li>Уведомляет стороны об изменениях</li></ul></section>
-            <section class="card"><div class="card-h">Делает риелтор</div><p class="note" style="margin:0">Действий не требуется</p></section>
-          </div>
-          <p class="deals-sub reg-suspend-intro">Как выглядит статус, когда случилась приостановка регистрации</p>
-          <section class="reg-suspend-banner" id="reg-suspend-banner">
-            <div class="reg-suspend-head">
-              <span class="reg-suspend-eyebrow">Что нужно сделать</span>
-              <span class="reg-suspend-deadline">Срок до 28 мая · 5 дней</span>
+          <section class="card reg-fast-card">
+            <div class="card-h">Ускоренная регистрация</div>
+            <div class="reg-fast-meta">
+              <span class="grp-pill grp-warn">1 рабочий день</span>
+              <span class="grp-pill grp-pend">Пошлина ×2</span>
             </div>
-            <h2>Связаться с продавцом, уточнить корректный адрес</h2>
-            <div class="reg-registrar-comment">
-              <div class="reg-registrar-comment-h">Комментарий регистратора · Сидорова О. П. · 26 мая 14:32</div>
-              <p>«Расхождение в адресе между ДКП и выпиской ЕГРН: указано «кв. 47», в ЕГРН — «кв. 47а». Требуется уточнение от продавца и повторная подача документа с корректным адресом».</p>
-            </div>
-            <div class="reg-suspend-actions">
-              <button type="button" class="btn btn-err" id="reg-suspend-resolve">Устранить приостановку</button>
-              <button type="button" class="btn btn-g">Связаться с регистратором</button>
-            </div>
+            <button type="button" class="btn btn-g" id="reg-fast-btn" aria-pressed="false">Запросить ускоренную регистрацию</button>
           </section>
         </div>
         <div class="reg-aside-col">
@@ -929,9 +887,6 @@
             <div class="card-h">Регистратор</div>
             <p style="margin:0;font-weight:600">Сидорова О. П.</p>
             <p class="note">+7 (495) 555-01-72<br>o.sidorova@rosreestr.ru</p>
-            <div class="card-h reg-urgency-head" style="margin-top:14px">Срочность регистрации</div>
-            <button type="button" class="btn btn-g reg-urgency-btn" id="reg-urgency-btn" aria-pressed="false">Нужна срочная регистрация</button>
-            <p class="note reg-urgency-hint" id="reg-urgency-hint">2 дня · с доплатой</p>
             <div class="card-h" style="margin-top:14px">Прогноз СБР</div>
             <p style="font-weight:600;margin:0" id="reg-sbr-forecast">28 мая · через 6 дней</p>
           </section>
@@ -1425,8 +1380,7 @@ function updateSummary(name) {
     <div class="cell"><div class="cell-k">Этап</div><div class="cell-v">${s.stage}</div></div>
     <div class="cell"><div class="cell-k">Следующий</div><div class="cell-v">${s.next}</div></div>
     <div class="cell${s.block?' block':''}"><div class="cell-k">Блокер</div><div class="cell-v">${s.blocker}</div></div>
-    <div class="cell act"><div class="cell-k">Действие</div><div class="cell-v">${s.action}</div></div>
-    <div class="cell"><div class="cell-k">Ответственный</div><div class="cell-v">Михайлова А. С.</div></div>`;
+    <div class="cell act"><div class="cell-k">Действие</div><div class="cell-v">${s.action}</div></div>`;
 }
 
 function showView(name) {
@@ -1466,21 +1420,6 @@ function mountM2ManagerCards() {
   });
 }
 
-function initRegSuspend() {
-  const intro = document.querySelector('.reg-suspend-intro');
-  const simulate = document.getElementById('reg-suspend-simulate');
-  const resolve = document.getElementById('reg-suspend-resolve');
-  if (!intro) return;
-
-  simulate?.addEventListener('click', () => {
-    intro.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  });
-
-  resolve?.addEventListener('click', () => {
-    document.querySelector('[data-view="registration"] .session-banner')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  });
-}
-
 function openMemoModal() {
   const modal = document.getElementById('memo-modal');
   if (!modal) return;
@@ -1516,20 +1455,23 @@ function initMemoModal() {
   });
 }
 
-function initRegUrgency() {
-  const btn = document.getElementById('reg-urgency-btn');
+function initRegFast() {
+  const btn = document.getElementById('reg-fast-btn');
   const forecast = document.getElementById('reg-sbr-forecast');
-  if (!btn || !forecast) return;
+  const bannerForecast = document.getElementById('reg-forecast-date');
+  if (!btn) return;
 
   btn.addEventListener('click', () => {
-    const urgent = btn.classList.toggle('is-active');
-    btn.setAttribute('aria-pressed', urgent ? 'true' : 'false');
-    forecast.textContent = urgent ? '26 мая · ускоренная' : '28 мая · через 6 дней';
+    const active = btn.classList.toggle('is-active');
+    btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+    btn.textContent = active ? 'Ускоренная регистрация запрошена' : 'Запросить ускоренную регистрацию';
+    if (forecast) forecast.textContent = active ? '26 мая · ускоренная' : '28 мая · через 6 дней';
+    if (bannerForecast) bannerForecast.textContent = active ? 'Прогноз — 26 мая' : 'Прогноз — 28 мая';
   });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  renderDeals(); renderObjectShield(); renderAggregator(); initRoute(); mountM2ManagerCards(); initMemoModal(); initRegUrgency(); initRegSuspend();
+  renderDeals(); renderObjectShield(); renderAggregator(); initRoute(); mountM2ManagerCards(); initMemoModal(); initRegFast();
   document.getElementById('deal-menu-toggle')?.addEventListener('click', e => {
     e.stopPropagation();
     toggleDealMenu();
