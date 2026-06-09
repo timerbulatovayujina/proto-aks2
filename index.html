@@ -87,7 +87,6 @@
       cursor: pointer; text-align: left; max-width: 100%;
     }
     .summary-action-link:hover { color: #1348a8; }
-    .summary-action-link::after { content: '→'; text-decoration: none; font-weight: 500; flex-shrink: 0; }
 
     .pill { font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 20px; white-space: nowrap; }
     .pill-ok { background: var(--ok-bg); color: var(--ok); }
@@ -244,10 +243,48 @@
     .p-badge { font-size: 11px; font-weight: 600; padding: 2px 6px; border-radius: 4px; background: var(--subtle); border: 1px solid var(--line); margin-right: 4px; }
     .participant-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px 24px; margin: 12px 0; }
     .participant-stats.cols-3 { grid-template-columns: repeat(3, 1fr); }
+    .participant-docs { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line); }
+    .participant-docs-h { font-size: 10px; font-weight: 600; text-transform: uppercase; color: var(--faint); margin-bottom: 8px; }
+    .participant-doc-row {
+      display: flex; align-items: center; gap: 10px; width: 100%;
+      padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px;
+      background: var(--subtle); transition: background 0.12s, border-color 0.12s;
+    }
+    .participant-doc-row:hover { background: #eef0f4; border-color: #d0d5dd; }
+    .participant-doc-open {
+      flex: 1; display: flex; align-items: center; gap: 10px; min-width: 0;
+      padding: 0; border: none; background: none; cursor: pointer; text-align: left; font-family: inherit;
+    }
+    .participant-doc-icon {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 32px; height: 32px; flex-shrink: 0;
+      border-radius: 6px; background: var(--surface); border: 1px solid var(--line); color: var(--accent);
+    }
+    .participant-doc-icon svg { width: 16px; height: 16px; display: block; }
+    .participant-doc-text { flex: 1; min-width: 0; }
+    .participant-doc-name { display: block; font-size: 13px; font-weight: 600; color: var(--text); line-height: 1.35; }
+    .participant-doc-meta { display: block; margin-top: 2px; font-size: 12px; color: var(--text); }
+    .participant-doc-download {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 28px; height: 28px; flex-shrink: 0; padding: 0;
+      border: none; background: none; color: var(--faint); cursor: pointer;
+    }
+    .participant-doc-download:hover { color: var(--muted); }
+    .participant-doc-download svg { width: 16px; height: 16px; display: block; }
+    .modal.modal-doc { width: min(640px, 100%); max-height: min(90vh, 720px); display: flex; flex-direction: column; }
+    .modal-doc-sub { margin: 0 0 12px; font-size: 12px; color: var(--muted); }
+    .doc-preview {
+      flex: 1; overflow-y: auto; min-height: 0;
+      padding: 14px 16px; border: 1px solid var(--line); border-radius: 8px;
+      background: var(--subtle); font-size: 13px; line-height: 1.55; color: var(--text);
+    }
+    .doc-preview h3 { margin: 0 0 10px; font-size: 14px; font-weight: 600; text-align: center; }
+    .doc-preview p { margin: 0 0 10px; }
+    .doc-preview p:last-child { margin-bottom: 0; }
     .pstat-k { font-size: 10px; font-weight: 600; text-transform: uppercase; color: var(--faint); margin-bottom: 4px; }
     .pstat-v { font-size: 12px; font-weight: 500; line-height: 1.35; }
     .pstat-v.warn { color: var(--warn); font-weight: 600; }
-    .participant-note-badge.is-critical { display: inline-block; padding: 4px 8px; font-size: 12px; background: var(--err-bg); border: 1px solid #fecaca; color: var(--err); border-radius: 6px; margin-top: 10px; }
+    .participant-note-badge.is-critical { display: block; padding: 4px 8px; font-size: 12px; background: var(--err-bg); border: 1px solid #fecaca; color: var(--err); border-radius: 6px; margin: 12px 0 0; }
     .object-addr-line { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; font-size: 14px; color: var(--muted); margin-bottom: 14px; }
     .object-addr-line .object-addr { font-weight: 600; color: var(--text); font-size: 15px; }
     .object-docs-panel { border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--subtle); }
@@ -694,6 +731,21 @@
               <div><div class="pstat-k">СБР</div><div class="pstat-v">Не размещены</div></div>
             </div>
             <span class="participant-note-badge is-critical">Застрял на видеоидентификации — напомнить или сменить канал</span>
+            <div class="participant-docs">
+              <div class="participant-docs-h">Документы</div>
+              <div class="participant-doc-row">
+                <button type="button" class="participant-doc-open" id="buyer-advance-doc-open" aria-haspopup="dialog" aria-controls="advance-doc-modal">
+                  <span class="participant-doc-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg></span>
+                  <span class="participant-doc-text">
+                    <span class="participant-doc-name">Договор аванса</span>
+                    <span class="participant-doc-meta">Подписан · аванс 500 000 ₽</span>
+                  </span>
+                </button>
+                <button type="button" class="participant-doc-download" id="buyer-advance-doc-download" aria-label="Скачать договор аванса">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+                </button>
+              </div>
+            </div>
           </section>
           <section class="participants-widget">
             <div class="participant-head">
@@ -759,11 +811,25 @@
               <li class="sbr-step"><strong>3. Регистрация перехода права</strong> — ожидает</li>
               <li class="sbr-step"><strong>4. Автоперевод продавцу</strong> — ожидает</li>
             </ol>
+            <div class="participant-docs">
+              <div class="participant-doc-row">
+                <button type="button" class="participant-doc-open" id="sbr-contract-open" aria-haspopup="dialog" aria-controls="sbr-contract-modal">
+                  <span class="participant-doc-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg></span>
+                  <span class="participant-doc-text">
+                    <span class="participant-doc-name">Договор СБР от М2</span>
+                    <span class="participant-doc-meta">Не подписан · 12 400 000 ₽</span>
+                  </span>
+                </button>
+                <button type="button" class="participant-doc-download" id="sbr-contract-download" aria-label="Скачать договор СБР">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+                </button>
+              </div>
+            </div>
           </section>
           <section class="card">
             <div class="card-h">Движение средств</div>
             <div class="party-compare">
-              <div class="party-box buyer"><div class="party-role">Покупатель</div><p><b>Петров К. С.</b><br>₽ 12 400 000 зарезервированы</p></div>
+              <div class="party-box buyer"><div class="party-role">Покупатель</div><p><b>Петров К. С.</b><br>₽ 12 400 000 ожидает резервирования денег</p></div>
               <div class="party-box seller"><div class="party-role">Продавец</div><p><b>Иванова Е. А.</b><br>Ожидает поступления</p></div>
             </div>
           </section>
@@ -961,6 +1027,62 @@
   </section>
 </template>
 
+<div class="modal-overlay" id="advance-doc-modal" role="dialog" aria-modal="true" aria-labelledby="advance-doc-modal-title" hidden>
+  <div class="modal modal-doc">
+    <div class="modal-head">
+      <h2 class="modal-title" id="advance-doc-modal-title">Договор внесения аванса по сделке</h2>
+      <button type="button" class="modal-close" id="advance-doc-modal-close" aria-label="Закрыть">×</button>
+    </div>
+    <p class="modal-doc-sub">Сделка №4521 · Петров К. С. · статус: подписан</p>
+    <div class="doc-preview">
+      <h3>Договор внесения аванса по сделке</h3>
+      <p>г. Москва · «___» ________ 2025 г.</p>
+      <p><strong>Покупатель:</strong> Петров Константин Сергеевич, паспорт 45 12 № 123456, выдан ОВД района «Сокол» г. Москвы 15.03.2018.</p>
+      <p><strong>Продавец:</strong> Иванова Елена Александровна, паспорт 36 03 № 654321, выдан УФМС России по Самарской области 22.07.2016.</p>
+      <p><strong>Объект:</strong> квартира по адресу: г. Москва, ул. Лесная, д. 14, кв. 47, кадастровый номер 77:01:0004010:1234.</p>
+      <p><strong>Цена сделки:</strong> 12 400 000 (двенадцать миллионов четыреста тысяч) рублей.</p>
+      <p><strong>Размер аванса:</strong> 500 000 (пятьсот тысяч) рублей.</p>
+      <p>1. Покупатель обязуется внести аванс в срок до 10 июня 2025 г. на счёт, указанный Продавцом, в целях обеспечения обязательств по заключению договора купли-продажи указанного объекта.</p>
+      <p>2. Аванс засчитывается в счёт оплаты по договору купли-продажи при его заключении и регистрации в Росреестре.</p>
+      <p>3. В случае отказа Покупателя от сделки по причинам, не связанным с нарушением обязательств Продавца, аванс не возвращается.</p>
+      <p>4. Настоящий договор подлежит подписанию усиленной квалифицированной электронной подписью сторон через платформу М2.</p>
+      <p style="margin-top:16px"><strong>Подписи сторон:</strong><br>Покупатель: _________________<br>Продавец: _________________</p>
+    </div>
+    <div class="modal-actions">
+      <button type="button" class="btn btn-p" id="advance-doc-modal-download">Скачать PDF</button>
+      <button type="button" class="btn btn-g" id="advance-doc-modal-dismiss">Закрыть</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="sbr-contract-modal" role="dialog" aria-modal="true" aria-labelledby="sbr-contract-modal-title" hidden>
+  <div class="modal modal-doc">
+    <div class="modal-head">
+      <h2 class="modal-title" id="sbr-contract-modal-title">Договор СБР от М2</h2>
+      <button type="button" class="modal-close" id="sbr-contract-modal-close" aria-label="Закрыть">×</button>
+    </div>
+    <p class="modal-doc-sub">Сделка №4521 · СБР №12345 · статус: не подписан</p>
+    <div class="doc-preview">
+      <h3>Договор сервиса безопасных расчётов М2</h3>
+      <p>г. Москва · «___» ________ 2025 г.</p>
+      <p><strong>Покупатель:</strong> Петров Константин Сергеевич.</p>
+      <p><strong>Продавец:</strong> Иванова Елена Александровна.</p>
+      <p><strong>Объект сделки:</strong> квартира по адресу: г. Москва, ул. Лесная, д. 14, кв. 47.</p>
+      <p><strong>Сумма расчётов:</strong> 12 400 000 (двенадцать миллионов четыреста тысяч) рублей.</p>
+      <p><strong>Номер СБР:</strong> 12345.</p>
+      <p>1. Покупатель резервирует сумму сделки на специальном счёте СБР М2 до момента государственной регистрации перехода права собственности.</p>
+      <p>2. После регистрации в Росреестре средства автоматически перечисляются продавцу в соответствии с условиями договора купли-продажи.</p>
+      <p>3. Сервис М2 обеспечивает контроль исполнения условий сделки и защиту интересов сторон.</p>
+      <p>4. Настоящий договор подлежит подписанию усиленной квалифицированной электронной подписью сторон через платформу М2.</p>
+      <p style="margin-top:16px"><strong>Подписи сторон:</strong><br>Покупатель: _________________<br>Продавец: _________________</p>
+    </div>
+    <div class="modal-actions">
+      <button type="button" class="btn btn-p" id="sbr-contract-modal-download">Скачать PDF</button>
+      <button type="button" class="btn btn-g" id="sbr-contract-modal-dismiss">Закрыть</button>
+    </div>
+  </div>
+</div>
+
 <div class="modal-overlay" id="memo-modal" role="dialog" aria-modal="true" aria-labelledby="memo-modal-title" hidden>
   <div class="modal">
     <div class="modal-head">
@@ -1083,7 +1205,7 @@ const WORKSPACE = ['overview','object','participants','payments','signing','regi
 const SUMMARY = {
   overview: { pill:'pill-warn', pillText:'Подписание — требует внимания', stage:'Подписание', next:'Расчёты', blocker:'УКЭП покупателя не готова', action:'УКЭП покупателя до 3 июня', actionGoto:'participants', block:true },
   object: { pill:'pill-ok', pillText:'Одобрено для покупки', stage:'Подписание', next:'Расчёты', blocker:'1 замечание по адресу', action:'Уточнить у продавца', actionGoto:'object', block:true },
-  participants: { pill:'pill-warn', pillText:'Готовность: 29%', stage:'Подписание', next:'Расчёты', blocker:'Идентификация покупателя', action:'Напомнить сегодня', actionGoto:'participants', block:true },
+  participants: { pill:'pill-warn', pillText:'Готовность: 29%', stage:'Подписание', next:'Расчёты', blocker:'Идентификация покупателя', action:'Напомнить покупателю', actionId:'remind-buyer-write', block:true },
   payments: { pill:'pill-err', pillText:'Расчёты не выбраны', stage:'Подписание', next:'Регистрация', blocker:'Инструмент не выбран', action:'Предложить СБР сторонам', actionGoto:'payment-methods', block:true },
   signing: { pill:'pill-act', pillText:'● Сессия идёт', stage:'Подписание', next:'Регистрация', blocker:'—', action:'Вернуться в комнату', actionGoto:'signing', block:false },
   registration: { pill:'pill-ok', pillText:'По плану', stage:'Регистрация', next:'Расчёты', blocker:'—', action:'Действий не требуется', block:false },
@@ -1429,6 +1551,9 @@ function initRoute() {
 }
 
 function renderSummaryAction(s) {
+  if (s.actionId) {
+    return `<button type="button" class="summary-action-link" data-action="${s.actionId}">${s.action}</button>`;
+  }
   if (!s.actionGoto) {
     return `<div class="cell-v-static">${s.action}</div>`;
   }
@@ -1507,6 +1632,76 @@ function closeMemoModal() {
   document.getElementById('summary-help-btn')?.focus();
 }
 
+function initAdvanceDocModal() {
+  const modal = document.getElementById('advance-doc-modal');
+  const openBtn = document.getElementById('buyer-advance-doc-open');
+  if (!modal || !openBtn) return;
+
+  const download = () => {
+    alert('В прототипе: скачивание PDF договора внесения аванса.');
+  };
+
+  const close = () => {
+    modal.classList.remove('is-open');
+    modal.hidden = true;
+    openBtn.focus();
+  };
+
+  openBtn.addEventListener('click', () => {
+    modal.hidden = false;
+    modal.classList.add('is-open');
+    document.getElementById('advance-doc-modal-close')?.focus();
+  });
+  document.getElementById('buyer-advance-doc-download')?.addEventListener('click', e => {
+    e.stopPropagation();
+    download();
+  });
+  document.getElementById('advance-doc-modal-close')?.addEventListener('click', close);
+  document.getElementById('advance-doc-modal-dismiss')?.addEventListener('click', close);
+  document.getElementById('advance-doc-modal-download')?.addEventListener('click', download);
+  modal.addEventListener('click', e => {
+    if (e.target === modal) close();
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && modal.classList.contains('is-open')) close();
+  });
+}
+
+function initSbrContractModal() {
+  const modal = document.getElementById('sbr-contract-modal');
+  const openBtn = document.getElementById('sbr-contract-open');
+  if (!modal || !openBtn) return;
+
+  const download = () => {
+    alert('В прототипе: скачивание PDF договора СБР от М2.');
+  };
+
+  const close = () => {
+    modal.classList.remove('is-open');
+    modal.hidden = true;
+    openBtn.focus();
+  };
+
+  openBtn.addEventListener('click', () => {
+    modal.hidden = false;
+    modal.classList.add('is-open');
+    document.getElementById('sbr-contract-modal-close')?.focus();
+  });
+  document.getElementById('sbr-contract-download')?.addEventListener('click', e => {
+    e.stopPropagation();
+    download();
+  });
+  document.getElementById('sbr-contract-modal-close')?.addEventListener('click', close);
+  document.getElementById('sbr-contract-modal-dismiss')?.addEventListener('click', close);
+  document.getElementById('sbr-contract-modal-download')?.addEventListener('click', download);
+  modal.addEventListener('click', e => {
+    if (e.target === modal) close();
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && modal.classList.contains('is-open')) close();
+  });
+}
+
 function initMemoModal() {
   const modal = document.getElementById('memo-modal');
   const openBtn = document.getElementById('summary-help-btn');
@@ -1551,7 +1746,7 @@ function initRegFast() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  renderDeals(); renderObjectShield(); renderDkpPrep(); renderAggregator(); initRoute(); mountM2ManagerCards(); initMemoModal(); initRegFast();
+  renderDeals(); renderObjectShield(); renderDkpPrep(); renderAggregator(); initRoute(); mountM2ManagerCards(); initAdvanceDocModal(); initSbrContractModal(); initMemoModal(); initRegFast();
   document.getElementById('deal-menu-toggle')?.addEventListener('click', e => {
     e.stopPropagation();
     toggleDealMenu();
@@ -1560,6 +1755,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!e.target.closest('.deal-menu-mobile')) closeDealMenu();
   });
   document.addEventListener('click', e => {
+    const actionEl = e.target.closest('[data-action]');
+    if (actionEl) {
+      e.preventDefault();
+      if (actionEl.dataset.action === 'remind-buyer-write') {
+        alert('Напоминание отправлено покупателю: подписать договор внесения аванса.');
+      }
+      return;
+    }
     const el = e.target.closest('[data-page],[data-goto]');
     if (!el) return;
     e.preventDefault();
