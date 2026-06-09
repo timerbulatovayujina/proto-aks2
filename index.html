@@ -251,6 +251,7 @@
       background: var(--subtle); transition: background 0.12s, border-color 0.12s;
     }
     .participant-doc-row:hover { background: #eef0f4; border-color: #d0d5dd; }
+    .participant-doc-row.is-clickable { cursor: pointer; }
     .participant-doc-open {
       flex: 1; display: flex; align-items: center; gap: 10px; min-width: 0;
       padding: 0; border: none; background: none; cursor: pointer; text-align: left; font-family: inherit;
@@ -812,14 +813,12 @@
               <li class="sbr-step"><strong>4. Автоперевод продавцу</strong> — ожидает</li>
             </ol>
             <div class="participant-docs">
-              <div class="participant-doc-row">
-                <button type="button" class="participant-doc-open" id="sbr-contract-open" aria-haspopup="dialog" aria-controls="sbr-contract-modal">
-                  <span class="participant-doc-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg></span>
-                  <span class="participant-doc-text">
-                    <span class="participant-doc-name">Договор СБР от М2</span>
-                    <span class="participant-doc-meta">Не подписан · 12 400 000 ₽</span>
-                  </span>
-                </button>
+              <div class="participant-doc-row is-clickable" id="sbr-contract-row" role="button" tabindex="0" aria-haspopup="dialog" aria-controls="sbr-contract-modal">
+                <span class="participant-doc-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg></span>
+                <span class="participant-doc-text">
+                  <span class="participant-doc-name">Договор СБР от М2</span>
+                  <span class="participant-doc-meta">Не подписан · 12 400 000 ₽</span>
+                </span>
                 <button type="button" class="participant-doc-download" id="sbr-contract-download" aria-label="Скачать договор СБР">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
                 </button>
@@ -1061,13 +1060,13 @@
       <h2 class="modal-title" id="sbr-contract-modal-title">Договор СБР от М2</h2>
       <button type="button" class="modal-close" id="sbr-contract-modal-close" aria-label="Закрыть">×</button>
     </div>
-    <p class="modal-doc-sub">Сделка №4521 · СБР №12345 · статус: не подписан</p>
+    <p class="modal-doc-sub">Сделка №4521 · Петров К. С. · статус: не подписан</p>
     <div class="doc-preview">
-      <h3>Договор сервиса безопасных расчётов М2</h3>
+      <h3>Договор СБР от М2</h3>
       <p>г. Москва · «___» ________ 2025 г.</p>
-      <p><strong>Покупатель:</strong> Петров Константин Сергеевич.</p>
-      <p><strong>Продавец:</strong> Иванова Елена Александровна.</p>
-      <p><strong>Объект сделки:</strong> квартира по адресу: г. Москва, ул. Лесная, д. 14, кв. 47.</p>
+      <p><strong>Покупатель:</strong> Петров Константин Сергеевич, паспорт 45 12 № 123456, выдан ОВД района «Сокол» г. Москвы 15.03.2018.</p>
+      <p><strong>Продавец:</strong> Иванова Елена Александровна, паспорт 36 03 № 654321, выдан УФМС России по Самарской области 22.07.2016.</p>
+      <p><strong>Объект:</strong> квартира по адресу: г. Москва, ул. Лесная, д. 14, кв. 47, кадастровый номер 77:01:0004010:1234.</p>
       <p><strong>Сумма расчётов:</strong> 12 400 000 (двенадцать миллионов четыреста тысяч) рублей.</p>
       <p><strong>Номер СБР:</strong> 12345.</p>
       <p>1. Покупатель резервирует сумму сделки на специальном счёте СБР М2 до момента государственной регистрации перехода права собственности.</p>
@@ -1079,6 +1078,34 @@
     <div class="modal-actions">
       <button type="button" class="btn btn-p" id="sbr-contract-modal-download">Скачать PDF</button>
       <button type="button" class="btn btn-g" id="sbr-contract-modal-dismiss">Закрыть</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="dkp-modal" role="dialog" aria-modal="true" aria-labelledby="dkp-modal-title" hidden>
+  <div class="modal modal-doc">
+    <div class="modal-head">
+      <h2 class="modal-title" id="dkp-modal-title">Договор купли-продажи</h2>
+      <button type="button" class="modal-close" id="dkp-modal-close" aria-label="Закрыть">×</button>
+    </div>
+    <p class="modal-doc-sub">Сделка №4521 · статус: готов к подписанию · Подготовлен М2 · 23 мая</p>
+    <div class="doc-preview">
+      <h3>Проект договора купли-продажи</h3>
+      <p>г. Москва · «___» ________ 2025 г.</p>
+      <p><strong>Продавец:</strong> Иванова Елена Александровна, паспорт 36 03 № 654321, выдан УФМС России по Самарской области 22.07.2016.</p>
+      <p><strong>Покупатель:</strong> Петров Константин Сергеевич, паспорт 45 12 № 123456, выдан ОВД района «Сокол» г. Москвы 15.03.2018.</p>
+      <p><strong>Объект:</strong> квартира по адресу: г. Москва, ул. Лесная, д. 14, кв. 47, кадастровый номер 77:01:0004010:1234, площадь 52,4 кв. м.</p>
+      <p><strong>Цена:</strong> 12 400 000 (двенадцать миллионов четыреста тысяч) рублей.</p>
+      <p><strong>Расчёты:</strong> через сервис безопасных расчётов М2, СБР №12345.</p>
+      <p>1. Продавец обязуется передать в собственность Покупателя указанный объект, а Покупатель обязуется принять объект и уплатить за него цену, установленную настоящим договором.</p>
+      <p>2. Право собственности на объект переходит к Покупателю с момента государственной регистрации перехода права в Росреестре.</p>
+      <p>3. Объект передаётся Покупателю по акту приёма-передачи в течение 5 рабочих дней после регистрации перехода права.</p>
+      <p>4. Настоящий договор подлежит подписанию усиленной квалифицированной электронной подписью сторон через платформу М2.</p>
+      <p style="margin-top:16px"><strong>Подписи сторон:</strong><br>Продавец: _________________<br>Покупатель: _________________</p>
+    </div>
+    <div class="modal-actions">
+      <button type="button" class="btn btn-p" id="dkp-modal-download">Скачать PDF</button>
+      <button type="button" class="btn btn-g" id="dkp-modal-dismiss">Закрыть</button>
     </div>
   </div>
 </div>
@@ -1293,8 +1320,8 @@ function renderDkpPrep() {
       <p class="dkp-contract-sub">${state.meta}</p>
       <div class="dkp-contract-actions">
         <div class="dkp-contract-actions-secondary">
-          <button type="button" class="btn btn-g" id="dkp-open-btn">Открыть ДКП</button>
-          <button type="button" class="btn btn-g" id="dkp-resend-btn">Скачать ДКП</button>
+          <button type="button" class="btn btn-g" data-dkp-open>Открыть ДКП</button>
+          <button type="button" class="btn btn-g" data-dkp-download>Скачать ДКП</button>
         </div>
       </div>`;
   }
@@ -1669,23 +1696,32 @@ function initAdvanceDocModal() {
 
 function initSbrContractModal() {
   const modal = document.getElementById('sbr-contract-modal');
-  const openBtn = document.getElementById('sbr-contract-open');
-  if (!modal || !openBtn) return;
+  const row = document.getElementById('sbr-contract-row');
+  if (!modal || !row) return;
 
   const download = () => {
     alert('В прототипе: скачивание PDF договора СБР от М2.');
   };
 
-  const close = () => {
-    modal.classList.remove('is-open');
-    modal.hidden = true;
-    openBtn.focus();
-  };
-
-  openBtn.addEventListener('click', () => {
+  const open = () => {
     modal.hidden = false;
     modal.classList.add('is-open');
     document.getElementById('sbr-contract-modal-close')?.focus();
+  };
+
+  const close = () => {
+    modal.classList.remove('is-open');
+    modal.hidden = true;
+    row.focus();
+  };
+
+  row.addEventListener('click', e => {
+    if (e.target.closest('.participant-doc-download')) return;
+    open();
+  });
+  row.addEventListener('keydown', e => {
+    if (e.target.closest('.participant-doc-download')) return;
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); }
   });
   document.getElementById('sbr-contract-download')?.addEventListener('click', e => {
     e.stopPropagation();
@@ -1694,6 +1730,53 @@ function initSbrContractModal() {
   document.getElementById('sbr-contract-modal-close')?.addEventListener('click', close);
   document.getElementById('sbr-contract-modal-dismiss')?.addEventListener('click', close);
   document.getElementById('sbr-contract-modal-download')?.addEventListener('click', download);
+  modal.addEventListener('click', e => {
+    if (e.target === modal) close();
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && modal.classList.contains('is-open')) close();
+  });
+}
+
+function initDkpModal() {
+  const modal = document.getElementById('dkp-modal');
+  if (!modal) return;
+
+  let lastOpener = null;
+
+  const download = () => {
+    alert('В прототипе: скачивание PDF договора купли-продажи.');
+  };
+
+  const open = opener => {
+    lastOpener = opener || null;
+    modal.hidden = false;
+    modal.classList.add('is-open');
+    document.getElementById('dkp-modal-close')?.focus();
+  };
+
+  const close = () => {
+    modal.classList.remove('is-open');
+    modal.hidden = true;
+    lastOpener?.focus();
+    lastOpener = null;
+  };
+
+  document.addEventListener('click', e => {
+    if (e.target.closest('[data-dkp-download]')) {
+      e.preventDefault();
+      download();
+      return;
+    }
+    const openBtn = e.target.closest('[data-dkp-open]');
+    if (openBtn) {
+      e.preventDefault();
+      open(openBtn);
+    }
+  });
+  document.getElementById('dkp-modal-close')?.addEventListener('click', close);
+  document.getElementById('dkp-modal-dismiss')?.addEventListener('click', close);
+  document.getElementById('dkp-modal-download')?.addEventListener('click', download);
   modal.addEventListener('click', e => {
     if (e.target === modal) close();
   });
@@ -1746,7 +1829,7 @@ function initRegFast() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  renderDeals(); renderObjectShield(); renderDkpPrep(); renderAggregator(); initRoute(); mountM2ManagerCards(); initAdvanceDocModal(); initSbrContractModal(); initMemoModal(); initRegFast();
+  renderDeals(); renderObjectShield(); renderDkpPrep(); renderAggregator(); initRoute(); mountM2ManagerCards(); initAdvanceDocModal(); initSbrContractModal(); initDkpModal(); initMemoModal(); initRegFast();
   document.getElementById('deal-menu-toggle')?.addEventListener('click', e => {
     e.stopPropagation();
     toggleDealMenu();
