@@ -221,7 +221,6 @@
     .deals-table td { padding: 11px 12px; border-bottom: 1px solid var(--line); color: var(--muted); }
     .deals-table tbody tr { cursor: pointer; }
     .deals-table tbody tr:hover td { background: var(--subtle); }
-    .deals-table tbody tr.is-current td { background: var(--accent-soft); }
     .deals-table .deal-name { font-weight: 600; color: var(--text); }
     .kanban-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 14px; }
     .kanban-col { border: 1px dashed var(--line); border-radius: var(--r); padding: 10px 12px; background: var(--surface); min-height: 72px; }
@@ -621,9 +620,8 @@
         <p class="deals-sub">4 активные сделки</p>
         <div class="filters">
           <button type="button" class="chip is-active">Все</button>
-          <button type="button" class="chip">Риск срыва</button>
-          <button type="button" class="chip">Ждём сторону</button>
           <button type="button" class="chip">Дистанционные</button>
+          <button type="button" class="chip">ВТБ</button>
         </div>
         <div class="deals-table-wrap card" style="padding:0;overflow:hidden">
           <table class="deals-table" id="deals-table"><thead><tr><th>Адрес</th><th>Цена</th><th>Этап</th><th>Блокер</th><th>Статус</th><th>Ваш бонус</th></tr></thead><tbody></tbody></table>
@@ -671,7 +669,7 @@
         </main>
         <aside class="aside">
           <section class="summary-rail">
-            <div class="sum-row"><div class="sum-k">Статус</div><div class="sum-v" style="color:var(--ok)">По плану</div></div>
+            <div class="sum-row"><div class="sum-k">Статус</div><div class="sum-v">По плану</div></div>
             <div class="sum-row"><div class="sum-k">Сделка</div><div class="sum-v">№4521</div></div>
             <div class="sum-row">
               <div class="sum-k">СБР</div>
