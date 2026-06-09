@@ -72,7 +72,13 @@
     .summary-head { padding: 12px 16px; display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; border-bottom: 1px solid var(--line); }
     .summary-head h1 { margin: 0; font-size: 15px; font-weight: 600; }
     .summary-head-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
-    .summary-help-btn { padding: 6px 12px; font-size: 12px; font-weight: 500; white-space: nowrap; }
+    .summary-help-btn {
+      padding: 7px 13px; font-size: 12px; font-weight: 600; white-space: nowrap;
+      color: var(--text); background: var(--surface); border-color: #d0d5dd;
+      box-shadow: 0 1px 2px rgba(16, 24, 40, 0.05);
+    }
+    .summary-help-btn:hover { background: #f8f9fb; border-color: #c5cad3; color: var(--text); }
+    .summary-help-btn svg { width: 14px; height: 14px; color: var(--faint); flex-shrink: 0; }
     .summary-meta { font-size: 11px; color: var(--faint); margin-top: 3px; font-family: var(--mono); }
     .summary-row { display: grid; grid-template-columns: repeat(4, 1fr); }
     .cell { padding: 10px 14px; border-right: 1px solid var(--line); min-height: 54px; }
@@ -83,7 +89,7 @@
     .cell.act .cell-v-static { font-size: 13px; font-weight: 500; margin-top: 4px; color: var(--muted); }
     .summary-action-link {
       display: inline-flex; align-items: center; gap: 4px; margin-top: 4px; padding: 0; border: none; background: none;
-      font: 600 13px/1.35 var(--sans); color: var(--accent); text-decoration: underline; text-underline-offset: 2px;
+      font: 600 13px/1.35 var(--sans); color: var(--accent); text-decoration: none;
       cursor: pointer; text-align: left; max-width: 100%;
     }
     .summary-action-link:hover { color: #1348a8; }
@@ -599,7 +605,10 @@
         </div>
         <div class="summary-head-actions">
           <span class="pill pill-warn" id="sum-pill">Подписание — требует внимания</span>
-          <button type="button" class="btn btn-g summary-help-btn" id="summary-help-btn">Памятка</button>
+          <button type="button" class="btn btn-g summary-help-btn" id="summary-help-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/><path d="M8 7h8M8 11h8"/></svg>
+            Памятка по сделке
+          </button>
         </div>
       </div>
       <div class="summary-row" id="sum-row"></div>
@@ -617,7 +626,7 @@
           <button type="button" class="chip">Дистанционные</button>
         </div>
         <div class="deals-table-wrap card" style="padding:0;overflow:hidden">
-          <table class="deals-table" id="deals-table"><thead><tr><th>Адрес</th><th>Цена</th><th>Этап</th><th>Блокер</th><th>Статус</th><th>КВ риелтору</th></tr></thead><tbody></tbody></table>
+          <table class="deals-table" id="deals-table"><thead><tr><th>Адрес</th><th>Цена</th><th>Этап</th><th>Блокер</th><th>Статус</th><th>Ваш бонус</th></tr></thead><tbody></tbody></table>
         </div>
         <div class="kanban-row" id="kanban"></div>
       </div>
@@ -1132,7 +1141,7 @@ const DEALS_LIST = [
   { id:"4498", address:"ул. Садовая, 3, кв. 1", price:"5 600 000 ₽", step:"Расчёты", status:"ok", blocker:null },
   { id:"4490", address:"б-р Победы, 22, кв. 8", price:"18 900 000 ₽", step:"Идентификация", status:"err", blocker:"Нет УКЭП продавца" },
 ];
-const AGENT_KV = "5 000 ₽";
+const AGENT_KV = "+ 5 000 руб";
 const CHECKLIST = [
   { label:"Выписка ЕГРН", status:"done" }, { label:"Согласие супруга", status:"done" },
   { label:"Справка об отсутствии долгов", status:"done" },
@@ -1283,7 +1292,7 @@ function renderDeals() {
   tb.innerHTML = DEALS_LIST.map(d => {
     const cur = d.id === '4521' ? ' class="is-current"' : '';
     const pill = d.status === 'warn' ? 'pill-warn' : d.status === 'err' ? 'pill-err' : 'pill-ok';
-    const pillT = d.status === 'warn' ? 'Внимание' : d.status === 'err' ? 'Риск' : 'По плану';
+    const pillT = d.status === 'warn' ? 'Требует внимания' : d.status === 'err' ? 'Риск' : 'По плану';
     const open = d.id === '4521' ? ' data-open-deal="true"' : '';
     return `<tr${cur}${open}><td class="deal-name">${d.address}</td><td>${d.price}</td><td>${d.step}</td><td>${d.blocker || '—'}</td><td><span class="pill ${pill}" style="font-size:10px">${pillT}</span></td><td>${AGENT_KV}</td></tr>`;
   }).join('');
@@ -1291,7 +1300,7 @@ function renderDeals() {
   document.getElementById('kanban').innerHTML = `
     <div class="kanban-col"><h4>Подготовка</h4><button class="mini-card">б-р Победы, 22</button></div>
     <div class="kanban-col"><h4>Подписание</h4><button class="mini-card is-current" data-open-deal>ул. Лесная, 14</button></div>
-    <div class="kanban-col"><h4>Регистрация+</h4><button class="mini-card">пр. Мира, 87</button><button class="mini-card">ул. Садовая, 3</button></div>`;
+    <div class="kanban-col"><h4>Регистрация</h4><button class="mini-card">пр. Мира, 87</button><button class="mini-card">ул. Садовая, 3</button></div>`;
   document.querySelectorAll('[data-open-deal]').forEach(el => el.addEventListener('click', () => showView('overview')));
 }
 
