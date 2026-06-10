@@ -669,7 +669,6 @@
         </main>
         <aside class="aside">
           <section class="summary-rail">
-            <div class="sum-row"><div class="sum-k">Статус</div><div class="sum-v">По плану</div></div>
             <div class="sum-row"><div class="sum-k">Сделка</div><div class="sum-v">№4521</div></div>
             <div class="sum-row">
               <div class="sum-k">СБР</div>
@@ -926,7 +925,7 @@
               <li class="progress-step is-done"><span class="progress-mark">✓</span><div><strong>Идентификация сторон</strong><br><span class="progress-time">15:00 — 15:05</span></div></li>
               <li class="progress-step is-done"><span class="progress-mark">✓</span><div><strong>ДКП подписан покупателем</strong><br><span class="progress-time">15:08</span></div></li>
               <li class="progress-step is-current"><span class="progress-mark">●</span><div><strong>ДКП подписывается продавцом</strong><br><span class="progress-now">сейчас</span></div></li>
-              <li class="progress-step is-pending"><span class="progress-mark">○</span><div><strong>Заявление в РР подписывается обеими</strong></div></li>
+              <li class="progress-step is-pending"><span class="progress-mark">○</span><div><strong>Заявление в Росреестр подписывается обеими</strong></div></li>
               <li class="progress-step is-pending"><span class="progress-mark">○</span><div><strong>Документы передаются в Росреестр</strong></div></li>
             </ol>
             <p style="margin-top:12px;font-weight:600"><span id="session-timer-2">12</span> мин · прогноз ~15:30</p>
@@ -1209,12 +1208,15 @@ const PHASES = [
     {t:"Идентификация покупателя",s:"done",d:"20 мая"},{t:"Идентификация продавца",s:"done",d:"20 мая"},
     {t:"УКЭП покупателя",s:"done",d:"21 мая"},{t:"УКЭП продавца",s:"done",d:"21 мая"},
     {t:"Видео-комната",s:"done",d:"22 мая"},{t:"Пакет документов",s:"done",d:"22 мая"}] },
-  { id:3, title:"Подписание документов", steps:2, done:2, dates:"23 мая", pill:"grp-done", micro:[
-    {t:"ДКП подписан",s:"done",d:"23 мая"},{t:"Заявление в РР",s:"done",d:"23 мая"}] },
-  { id:4, title:"Подача на регистрацию", steps:3, done:3, dates:"23–24 мая", pill:"grp-done", micro:[
-    {t:"Подача в РР",s:"done",d:"23 мая"},{t:"КУВД получен",s:"done",d:"24 мая"},{t:"Мониторинг",s:"done",d:"24 мая"}] },
-  { id:5, title:"Регистрация", steps:2, done:1, dates:"прогноз 28 мая", pill:"grp-cur", open:true, micro:[
-    {t:"Регистрация в работе",s:"cur",d:"24 мая"},{t:"Регистрация завершена",s:"pend",d:"прогноз 28 мая"}] },
+  { id:1, title:"Подготовка", steps:3, done:2, dates:"27 мая", pill:"grp-cur", micro:[
+    {t:"Сессия назначена",s:"done",d:"27 мая"},{t:"ДКП согласован",s:"done",d:"22 мая"},
+    {t:"Готовность к подписанию",s:"cur",d:"сейчас"}] },
+  { id:2, title:"Подписание документов", steps:2, done:0, dates:"ожидает", pill:"grp-pend", micro:[
+    {t:"ДКП подписан",s:"pend",d:"—"},{t:"Заявление в Росреестр",s:"pend",d:"—"}] },
+  { id:3, title:"Подача на регистрацию", steps:3, done:0, dates:"ожидает", pill:"grp-pend", micro:[
+    {t:"Подача в Росреестр",s:"pend",d:"—"},{t:"КУВД получен",s:"pend",d:"—"},{t:"Мониторинг",s:"pend",d:"—"}] },
+  { id:5, title:"Регистрация", steps:2, done:0, dates:"прогноз 28 мая", pill:"grp-pend", micro:[
+    {t:"Регистрация в работе",s:"pend",d:"прогноз 28 мая"},{t:"Регистрация завершена",s:"pend",d:"прогноз 28 мая"}] },
   { id:6, title:"Расчёты", steps:4, done:0, dates:"29 мая – 4 июня", pill:"grp-pend", micro:[
     {t:"Выписка ЕГРН",s:"pend",d:"прогноз 29 мая"},{t:"Раскрытие СБР",s:"pend",d:"прогноз 4 июня"},
     {t:"Деньги продавцу",s:"pend",d:"прогноз 4 июня"},{t:"Документы получены",s:"pend",d:"прогноз 5 июня"}] },
@@ -1227,10 +1229,10 @@ const ROUTE_STEPS = [
   { id:'conditions', label:'Условия', status:'done', refs:[{ phase:0 }] },
   { id:'participants', label:'Участники', status:'done', refs:[{ phase:1, micro:[0,1,2,3] }] },
   { id:'object', label:'Объект', status:'done', refs:[{ phase:0, micro:[1,2] }] },
-  { id:'signing', label:'Подписание', status:'current', warn:true, refs:[{ phase:2 }, { phase:3 }] },
-  { id:'registration', label:'Регистрация', status:'pending', refs:[{ phase:4 }], cta:{ label:'Перейти к регистрации', goto:'registration' } },
-  { id:'payments', label:'Расчёты', status:'pending', refs:[{ phase:5 }], cta:{ label:'Перейти к расчётам', goto:'payments' } },
-  { id:'done', label:'Завершено', status:'pending', refs:[{ phase:6 }] },
+  { id:'signing', label:'Подписание', status:'current', warn:true, refs:[{ phase:2 }, { phase:3 }, { phase:4 }] },
+  { id:'registration', label:'Регистрация', status:'pending', refs:[{ phase:5 }], cta:{ label:'Перейти к регистрации', goto:'registration' } },
+  { id:'payments', label:'Расчёты', status:'pending', refs:[{ phase:6 }], cta:{ label:'Перейти к расчётам', goto:'payments' } },
+  { id:'done', label:'Завершено', status:'pending', refs:[{ phase:7 }] },
 ];
 
 let openRouteStep = -1;
@@ -1504,8 +1506,8 @@ function renderRouteChecklist(step) {
     }).join('');
     html += `<table class="chk-table"><tbody>${rows}</tbody></table>`;
   });
-  if (step.refs.some(r => r.phase === 4)) {
-    const phase = PHASES[4];
+  if (step.refs.some(r => r.phase === 5)) {
+    const phase = PHASES[5];
     if (phase.pill === 'grp-cur' && phase.open) {
       html += `<div class="row2" style="margin-top:10px"><div class="card" style="padding:10px"><b>Делает М2</b><p class="note" style="margin:0">Мониторит Росреестр</p></div><div class="card" style="padding:10px"><b>Делает риелтор</b><p class="note" style="margin:0">Информирует клиентов</p></div></div>`;
     }
@@ -1600,7 +1602,14 @@ function updateSummary(name) {
   const pill = document.getElementById('sum-pill');
   pill.className = 'pill ' + s.pill;
   pill.textContent = s.pillText;
-  document.getElementById('sum-row').innerHTML = `
+  const sumRow = document.getElementById('sum-row');
+  const hideStages = ['signing', 'registration', 'registration-suspended', 'payments'].includes(name);
+  sumRow.hidden = hideStages;
+  if (hideStages) {
+    sumRow.innerHTML = '';
+    return;
+  }
+  sumRow.innerHTML = `
     <div class="cell"><div class="cell-k">Этап</div><div class="cell-v">${s.stage}</div></div>
     <div class="cell"><div class="cell-k">Следующий</div><div class="cell-v">${s.next}</div></div>
     <div class="cell${s.block?' block':''}"><div class="cell-k">Блокер</div><div class="cell-v">${s.blocker}</div></div>
