@@ -60,7 +60,11 @@
     .deal-nav a { display: block; padding: 9px 12px; border-radius: 8px; font-size: 13px; font-weight: 500; color: var(--muted); text-decoration: none; border: 1px solid transparent; margin-bottom: 2px; }
     .deal-nav a:hover { background: var(--subtle); color: var(--text); }
     .deal-nav a.is-active { background: var(--accent-soft); color: var(--accent); font-weight: 600; border-color: #b2ccff; }
-    .deal-nav-sep { height: 1px; background: var(--line); margin: 10px 8px; }
+    .deal-nav-sep { height: 1px; background: var(--line); margin: 10px 4px 12px; }
+    .deal-nav-group-title {
+      margin: 0 0 6px; padding: 0 12px;
+      font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.04em; color: var(--faint);
+    }
     .app-shell:not(.in-workspace) .deal-nav { display: none; }
 
     .page { flex: 1; min-width: 0; max-width: 1200px; padding: 16px 24px 40px; }
@@ -72,27 +76,41 @@
     .summary-head { padding: 12px 16px; display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; border-bottom: 1px solid var(--line); }
     .summary-head h1 { margin: 0; font-size: 15px; font-weight: 600; }
     .summary-head-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
-    .summary-help-btn {
-      padding: 7px 13px; font-size: 12px; font-weight: 600; white-space: nowrap;
-      color: var(--text); background: var(--surface); border-color: #d0d5dd;
-      box-shadow: 0 1px 2px rgba(16, 24, 40, 0.05);
+    .btn.summary-help-btn {
+      justify-content: center; font-size: 12px; font-weight: 500; white-space: nowrap;
+      background: #fff; color: var(--text);
+      border: 1px solid #c5cad3;
+      box-shadow: 0 1px 2px rgba(16, 24, 40, 0.06);
     }
-    .summary-help-btn:hover { background: #f8f9fb; border-color: #c5cad3; color: var(--text); }
-    .summary-help-btn svg { width: 14px; height: 14px; color: var(--faint); flex-shrink: 0; }
+    .btn.summary-help-btn:hover { background: #f9fafb; border-color: #98a2b3; color: var(--text); }
     .summary-meta { font-size: 11px; color: var(--faint); margin-top: 3px; font-family: var(--mono); }
-    .summary-row { display: grid; grid-template-columns: repeat(4, 1fr); }
+    .summary-row { display: grid; grid-template-columns: repeat(3, 1fr); }
     .cell { padding: 10px 14px; border-right: 1px solid var(--line); min-height: 54px; }
     .cell:last-child { border-right: none; }
     .cell-k { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: var(--faint); }
     .cell-v { font-size: 13px; font-weight: 600; margin-top: 4px; }
-    .cell.block { background: var(--err-bg); } .cell.block .cell-v { color: var(--err); font-size: 12px; }
-    .cell.act .cell-v-static { font-size: 13px; font-weight: 500; margin-top: 4px; color: var(--muted); }
-    .summary-action-link {
-      display: inline-flex; align-items: center; gap: 4px; margin-top: 4px; padding: 0; border: none; background: none;
-      font: 600 13px/1.35 var(--sans); color: var(--accent); text-decoration: none;
-      cursor: pointer; text-align: left; max-width: 100%;
+    .cell.block { background: var(--err-bg); }
+    .cell.block .cell-v { color: var(--err); font-size: 12px; font-weight: 600; }
+    .blocker-trigger {
+      display: block; width: 100%; margin-top: 4px; padding: 6px 10px;
+      border: 1px solid var(--err); border-radius: 6px; background: #fff;
+      font: 600 12px/1.35 var(--sans); color: var(--err); cursor: pointer; text-align: left;
+      transition: background 0.12s, border-color 0.12s, box-shadow 0.12s;
     }
-    .summary-action-link:hover { color: #1348a8; }
+    .blocker-trigger:hover { background: #fff5f5; border-color: var(--err); box-shadow: 0 0 0 2px rgba(217, 45, 32, 0.08); }
+
+    .blocker-section { margin-bottom: 16px; }
+    .blocker-section:last-of-type { margin-bottom: 0; }
+    .blocker-section-k {
+      font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      color: var(--faint); margin-bottom: 6px;
+    }
+    .blocker-section-v { margin: 0; font-size: 14px; line-height: 1.5; color: var(--text); }
+    .blocker-section.is-highlight {
+      padding: 12px 14px; border-radius: 8px; background: var(--accent-soft); border: 1px solid #b2ccff;
+    }
+    .blocker-section.is-highlight .blocker-section-k { color: var(--accent); }
+    .modal.blocker-modal { width: min(480px, 100%); }
 
     .pill { font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 20px; white-space: nowrap; }
     .pill-ok { background: var(--ok-bg); color: var(--ok); }
@@ -222,6 +240,9 @@
     .deals-table tbody tr { cursor: pointer; }
     .deals-table tbody tr:hover td { background: var(--subtle); }
     .deals-table .deal-name { font-weight: 600; color: var(--text); }
+    .deal-bonus { min-width: 120px; }
+    .deal-bonus-amount { display: block; font-weight: 600; color: var(--ok); }
+    .deal-bonus-status { display: block; margin-top: 2px; font-size: 11px; color: var(--muted); }
     .kanban-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 14px; }
     .kanban-col { border: 1px dashed var(--line); border-radius: var(--r); padding: 10px 12px; background: var(--surface); min-height: 72px; }
     .kanban-col h4 { margin: 0 0 8px; font-size: 11px; font-weight: 600; text-transform: uppercase; color: var(--faint); }
@@ -376,8 +397,10 @@
     .pay-cmp-row.is-rec td { background: var(--accent-soft); }
     .pay-cmp-row.is-muted td { background: var(--subtle); }
     .pay-cmp-layout { grid-template-columns: 1fr; }
-    .pay-cmp-instrument { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .pay-cmp-instrument { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; max-width: 300px; }
+    .pay-cmp-instrument-head { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
     .pay-cmp-name { font-size: 13px; font-weight: 600; color: var(--text); }
+    .pay-cmp-desc { margin: 0; font-size: 11px; font-weight: 400; color: var(--muted); line-height: 1.45; }
     .pay-cmp-table .btn { font-size: 12px; padding: 6px 12px; white-space: nowrap; }
     /* Signing */
     .session-banner { border: 1px solid #b2ccff; background: linear-gradient(180deg, var(--accent-soft) 0%, var(--surface) 70%); padding: 16px 18px; border-radius: var(--r); margin-bottom: 14px; }
@@ -462,19 +485,25 @@
     .reg-forecast-badge.risk { background: var(--warn-bg); color: var(--warn); }
     .reg-forecast-badge.urgent { background: var(--warn-bg); color: var(--warn); }
     .reg-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    .reg-fast-card {
-      margin-top: 12px; padding: 16px 18px;
-      border-color: #b2ccff; background: var(--surface);
+    .reg-forecast-block {
+      padding: 12px 14px; border-radius: var(--r);
+      border: 1px solid var(--line); background: var(--surface);
     }
-    .reg-fast-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
-    .reg-fast-head .card-h { margin-bottom: 0; }
-    .reg-fast-price { font-size: 16px; font-weight: 700; color: var(--text); line-height: 1.25; flex-shrink: 0; }
-    .reg-fast-context { margin: 0 0 12px; font-size: 13px; line-height: 1.5; color: var(--text); }
-    .reg-fast-context .dim { color: var(--muted); }
-    .reg-fast-context .accent { color: var(--text); font-weight: 700; }
-    .reg-fast-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
-    .reg-fast-meta .grp-pill { font-size: 11px; }
-    .reg-fast-card .btn.is-active { background: var(--accent-soft); color: var(--accent); border-color: #b2ccff; }
+    .reg-forecast-primary { display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; }
+    .reg-forecast-k { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: var(--faint); }
+    .reg-forecast-v { font-size: 14px; font-weight: 700; color: var(--text); }
+    .reg-forecast-sub { font-size: 12px; color: var(--muted); }
+    .reg-fast-offer {
+      display: flex; flex-direction: column; align-items: stretch; gap: 8px;
+      margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--line);
+    }
+    .reg-fast-offer-main { display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; font-size: 12px; }
+    .reg-fast-offer-k { font-weight: 600; color: var(--accent); }
+    .reg-fast-offer-v { font-weight: 700; color: var(--text); }
+    .reg-fast-offer-price { font-weight: 600; color: var(--muted); }
+    .reg-fast-btn { width: 100%; justify-content: center; font-size: 12px; padding: 8px 12px; }
+    .reg-fast-btn.is-active { background: var(--accent-soft); color: var(--accent); border: 1px solid #b2ccff; }
+    .reg-fast-duty { margin: 6px 0 0; font-size: 11px; line-height: 1.4; color: var(--muted); }
 
     /* Scenario */
     .chk-group { margin-bottom: 14px; }
@@ -540,10 +569,7 @@
         line-height: 1.3;
         text-align: left;
       }
-      .summary-head-actions .summary-help-btn {
-        flex-shrink: 0;
-        padding: 6px 10px;
-      }
+      .summary-head-actions .btn.summary-help-btn { flex-shrink: 0; }
       .summary-head > div:first-child {
         min-width: 0;
       }
@@ -574,6 +600,8 @@
     </button>
     <div class="deal-menu-dropdown" id="deal-menu-dropdown" role="menu">
       <a href="#" role="menuitem" data-page="overview">Обзор сделки</a>
+      <div class="deal-nav-sep" role="presentation"></div>
+      <p class="deal-nav-group-title">Данные сделки</p>
       <a href="#" role="menuitem" data-page="object">Объект</a>
       <a href="#" role="menuitem" data-page="participants">Участники</a>
       <a href="#" role="menuitem" data-page="payments">Расчёты</a>
@@ -588,6 +616,8 @@
 <div class="app-shell" id="app-shell">
   <nav class="deal-nav" aria-label="Навигация сделки">
     <a href="#" data-page="overview">Обзор сделки</a>
+    <div class="deal-nav-sep" role="presentation"></div>
+    <p class="deal-nav-group-title">Данные сделки</p>
     <a href="#" data-page="object">Объект</a>
     <a href="#" data-page="participants">Участники</a>
     <a href="#" data-page="payments">Расчёты</a>
@@ -604,10 +634,7 @@
         </div>
         <div class="summary-head-actions">
           <span class="pill pill-warn" id="sum-pill">Подписание — требует внимания</span>
-          <button type="button" class="btn btn-g summary-help-btn" id="summary-help-btn">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/><path d="M8 7h8M8 11h8"/></svg>
-            Памятка по сделке
-          </button>
+          <button type="button" class="btn summary-help-btn" id="summary-help-btn">Памятка по сделке</button>
         </div>
       </div>
       <div class="summary-row" id="sum-row"></div>
@@ -737,7 +764,7 @@
               <div><div class="pstat-k">Расчёты</div><div class="pstat-v">Не выбраны</div></div>
               <div><div class="pstat-k">СБР</div><div class="pstat-v">Не размещены</div></div>
             </div>
-            <span class="participant-note-badge is-critical">Застрял на видеоидентификации — напомнить или сменить канал</span>
+            <span class="participant-note-badge is-critical">Застрял на видеоидентификации — напомнить или предложить другой способ подтверждения личности</span>
             <div class="participant-docs">
               <div class="participant-docs-h">Документы</div>
               <div class="participant-doc-row">
@@ -943,35 +970,70 @@
         <div class="reg-main-col">
           <section class="session-banner">
             <div class="session-live is-ok"><span class="session-live-dot"></span> Регистрация в работе</div>
-            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px">
-              <h2>Ожидаем решение регистратора</h2>
-              <span id="reg-forecast-date" style="font-size:12px;color:var(--muted);white-space:nowrap">Прогноз — 28 мая</span>
+            <h2 style="margin:0">Ожидаем решения</h2>
+            <p class="note" style="margin:0">Документы у Сидоровой О. П. (Росреестр). КУВД 99/123/2025 · подано 24 мая.</p>
+            <div class="participant-docs">
+              <div class="participant-docs-h">Документы на регистрацию</div>
+              <div class="participant-doc-row">
+                <button type="button" class="participant-doc-open" data-dkp-open aria-haspopup="dialog" aria-controls="dkp-modal">
+                  <span class="participant-doc-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg></span>
+                  <span class="participant-doc-text">
+                    <span class="participant-doc-name">Договор купли-продажи</span>
+                    <span class="participant-doc-meta">Подписан · 12 400 000 ₽ · подано 24 мая</span>
+                  </span>
+                </button>
+                <button type="button" class="participant-doc-download" data-dkp-download aria-label="Скачать ДКП">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+                </button>
+              </div>
+              <div class="participant-doc-row">
+                <button type="button" class="participant-doc-open" id="reg-rr-app-open" aria-haspopup="dialog" aria-controls="reg-rr-app-modal">
+                  <span class="participant-doc-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg></span>
+                  <span class="participant-doc-text">
+                    <span class="participant-doc-name">Заявление в Росреестр</span>
+                    <span class="participant-doc-meta">Подписано обеими · подано 24 мая</span>
+                  </span>
+                </button>
+                <button type="button" class="participant-doc-download" id="reg-rr-app-download" aria-label="Скачать заявление в Росреестр">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+                </button>
+              </div>
+              <div class="participant-doc-row">
+                <button type="button" class="participant-doc-open" id="reg-fee-receipt-open" aria-haspopup="dialog" aria-controls="reg-fee-receipt-modal">
+                  <span class="participant-doc-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg></span>
+                  <span class="participant-doc-text">
+                    <span class="participant-doc-name">Квитанция об оплате госпошлины</span>
+                    <span class="participant-doc-meta">Оплачена · 4 000 ₽ · 24 мая</span>
+                  </span>
+                </button>
+                <button type="button" class="participant-doc-download" id="reg-fee-receipt-download" aria-label="Скачать квитанцию об оплате госпошлины">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+                </button>
+              </div>
             </div>
-            <p class="note" style="margin:8px 0 14px">Документы у Сидоровой О. П. (Росреестр). КУВД 99/123/2025 · подано 24 мая.</p>
-            <div style="display:flex;gap:8px;flex-wrap:wrap">
-              <button type="button" class="btn btn-p">Связаться с регистратором</button>
-            </div>
-          </section>
-          <section class="card reg-fast-card">
-            <div class="reg-fast-head">
-              <div class="card-h">Ускоренная регистрация</div>
-              <span class="reg-fast-price">9 900 ₽</span>
-            </div>
-            <p class="reg-fast-context" id="reg-fast-context"><span class="dim">Ожидание — до 28 мая (6 дней).</span> <span class="accent">Ускоренная — завтра</span></p>
-            <div class="reg-fast-meta">
-              <span class="grp-pill grp-cur">1 рабочий день</span>
-              <span class="grp-pill grp-pend">Пошлина ×2</span>
-            </div>
-            <button type="button" class="btn btn-g" id="reg-fast-btn" aria-pressed="false">Запросить ускоренную регистрацию</button>
           </section>
         </div>
         <div class="reg-aside-col">
+          <div class="reg-forecast-block">
+            <div class="reg-forecast-primary">
+              <span class="reg-forecast-k">Прогноз</span>
+              <span class="reg-forecast-v" id="reg-forecast-date">28 мая</span>
+              <span class="reg-forecast-sub" id="reg-forecast-sub">· 6 дней</span>
+            </div>
+            <div class="reg-fast-offer">
+              <div class="reg-fast-offer-main">
+                <span class="reg-fast-offer-k">Ускоренная</span>
+                <span class="reg-fast-offer-v" id="reg-fast-date">завтра</span>
+                <span class="reg-fast-offer-price">9 900 ₽</span>
+              </div>
+              <button type="button" class="btn btn-p reg-fast-btn" id="reg-fast-btn" aria-pressed="false">Запросить</button>
+            </div>
+            <p class="reg-fast-duty">Госпошлина удваивается — доплата за счёт покупателя</p>
+          </div>
           <section class="card">
             <div class="card-h">Регистратор</div>
             <p style="margin:0;font-weight:600">Сидорова О. П.</p>
-            <p class="note">+7 (495) 555-01-72<br>o.sidorova@rosreestr.ru</p>
-            <div class="card-h" style="margin-top:14px">Прогноз СБР</div>
-            <p style="font-weight:600;margin:0" id="reg-sbr-forecast">28 мая · через 6 дней</p>
+            <p class="note" style="margin-bottom:0">+7 (495) 555-01-72<br>o.sidorova@rosreestr.ru</p>
           </section>
           <div data-m2-manager-slot></div>
         </div>
@@ -1116,6 +1178,65 @@
   </div>
 </div>
 
+<div class="modal-overlay" id="reg-rr-app-modal" role="dialog" aria-modal="true" aria-labelledby="reg-rr-app-modal-title" hidden>
+  <div class="modal modal-doc">
+    <div class="modal-head">
+      <h2 class="modal-title" id="reg-rr-app-modal-title">Заявление в Росреестр</h2>
+      <button type="button" class="modal-close" id="reg-rr-app-modal-close" aria-label="Закрыть">×</button>
+    </div>
+    <p class="modal-doc-sub">Сделка №4521 · КУВД 99/123/2025 · подано 24 мая</p>
+    <div class="doc-preview">
+      <h3>Заявление о государственной регистрации права</h3>
+      <p>г. Москва · 24 мая 2025 г.</p>
+      <p><strong>Заявитель (покупатель):</strong> Петров Константин Сергеевич.</p>
+      <p><strong>Заявитель (продавец):</strong> Иванова Елена Александровна.</p>
+      <p><strong>Объект:</strong> квартира, г. Москва, ул. Лесная, д. 14, кв. 47, кадастровый номер 77:01:0004010:1234.</p>
+      <p><strong>Основание:</strong> договор купли-продажи от 27 мая 2025 г., подписан усиленной квалифицированной электронной подписью сторон.</p>
+      <p><strong>Запрашиваемое действие:</strong> государственная регистрация перехода права собственности на объект недвижимости к покупателю.</p>
+      <p>Документы поданы в электронной форме через платформу М2. КУВД 99/123/2025.</p>
+      <p style="margin-top:16px"><strong>Подписи сторон:</strong><br>Покупатель: _________________<br>Продавец: _________________</p>
+    </div>
+    <div class="modal-actions">
+      <button type="button" class="btn btn-p" id="reg-rr-app-modal-download">Скачать PDF</button>
+      <button type="button" class="btn btn-g" id="reg-rr-app-modal-dismiss">Закрыть</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="reg-fee-receipt-modal" role="dialog" aria-modal="true" aria-labelledby="reg-fee-receipt-modal-title" hidden>
+  <div class="modal modal-doc">
+    <div class="modal-head">
+      <h2 class="modal-title" id="reg-fee-receipt-modal-title">Квитанция об оплате госпошлины</h2>
+      <button type="button" class="modal-close" id="reg-fee-receipt-modal-close" aria-label="Закрыть">×</button>
+    </div>
+    <p class="modal-doc-sub">Сделка №4521 · оплачено 24 мая · 4 000 ₽</p>
+    <div class="doc-preview">
+      <h3>Квитанция на оплату государственной пошлины</h3>
+      <p><strong>Плательщик:</strong> Петров Константин Сергеевич.</p>
+      <p><strong>Назначение платежа:</strong> госпошлина за государственную регистрацию права собственности.</p>
+      <p><strong>Объект:</strong> квартира, г. Москва, ул. Лесная, д. 14, кв. 47.</p>
+      <p><strong>Сумма:</strong> 4 000 (четыре тысячи) рублей.</p>
+      <p><strong>Дата оплаты:</strong> 24 мая 2025 г.</p>
+      <p><strong>Статус:</strong> оплачено, квитанция приложена к пакету документов на регистрацию.</p>
+    </div>
+    <div class="modal-actions">
+      <button type="button" class="btn btn-p" id="reg-fee-receipt-modal-download">Скачать PDF</button>
+      <button type="button" class="btn btn-g" id="reg-fee-receipt-modal-dismiss">Закрыть</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="blocker-modal" role="dialog" aria-modal="true" aria-labelledby="blocker-modal-title" hidden>
+  <div class="modal blocker-modal">
+    <div class="modal-head">
+      <h2 class="modal-title" id="blocker-modal-title">Что мешает сделке</h2>
+      <button type="button" class="modal-close" id="blocker-modal-close" aria-label="Закрыть">×</button>
+    </div>
+    <div id="blocker-modal-body"></div>
+    <div class="modal-actions" id="blocker-modal-foot"></div>
+  </div>
+</div>
+
 <div class="modal-overlay" id="memo-modal" role="dialog" aria-modal="true" aria-labelledby="memo-modal-title" hidden>
   <div class="modal">
     <div class="modal-head">
@@ -1138,7 +1259,7 @@ const DEALS_LIST = [
   { id:"4498", address:"ул. Садовая, 3, кв. 1", price:"5 600 000 ₽", step:"Расчёты", status:"ok", blocker:null },
   { id:"4490", address:"б-р Победы, 22, кв. 8", price:"18 900 000 ₽", step:"Идентификация", status:"err", blocker:"Нет УКЭП продавца" },
 ];
-const AGENT_KV = "+ 5 000 руб";
+const AGENT_KV = { amount: '+ 5 000 ₽', status: 'После регистрации' };
 const CHECKLIST = [
   { label:"Выписка ЕГРН", status:"done" }, { label:"Согласие супруга", status:"done" },
   { label:"Справка об отсутствии долгов", status:"done" },
@@ -1195,7 +1316,7 @@ const DKP_PREP = {
 };
 const PAYMENT_METHODS = [
   { id:"sbr", label:"СБР М2", price:"12 400 ₽", days:"1 день", limit:"До 50 млн", risk:"Раскрытие по факту регистрации, гарантия М2", recommended:true },
-  { id:"sbr-early", label:"Раннее размещение СБР М2", price:"0 ₽", days:"1 день", limit:"До 50 млн", risk:"Раскрытие по факту регистрации, гарантия М2", recommended:false, isNew:true },
+  { id:"sbr-early", label:"Раннее размещение СБР М2", desc:"Деньги покупателя размещаются на счёте СБР ещё до подписания — стороны заранее видят, что средства зарезервированы. Услуга бесплатна.", price:"0 ₽", days:"1 день", limit:"До 50 млн", risk:"Раскрытие по факту регистрации, гарантия М2", recommended:false, isNew:true },
   { id:"vtb", label:"Аккредитив банка ВТБ", price:"9 800 ₽", days:"2 дня", limit:"До 100 млн", risk:"Раскрытие по документам, очное посещение продавца", recommended:false },
   { id:"tbank", label:"Аккредитив Т-банка", price:"11 200 ₽", days:"2 дня", limit:"До 200 млн", risk:"Раскрытие по документам, очное посещение продавца", recommended:false },
   { id:"notar", label:"Депозит нотариуса", price:"от 1,5%", days:"3–5 дней", limit:"Без лимита", risk:"Передача через нотариуса, очное посещение сторон", recommended:false },
@@ -1229,7 +1350,7 @@ const ROUTE_STEPS = [
   { id:'conditions', label:'Условия', status:'done', refs:[{ phase:0 }] },
   { id:'participants', label:'Участники', status:'done', refs:[{ phase:1, micro:[0,1,2,3] }] },
   { id:'object', label:'Объект', status:'done', refs:[{ phase:0, micro:[1,2] }] },
-  { id:'signing', label:'Подписание', status:'current', warn:true, refs:[{ phase:2 }, { phase:3 }, { phase:4 }] },
+  { id:'signing', label:'Подписание', status:'current', warn:true, refs:[{ phase:2 }, { phase:3 }, { phase:4 }], cta:{ label:'Перейти в подписание', goto:'signing' } },
   { id:'registration', label:'Регистрация', status:'pending', refs:[{ phase:5 }], cta:{ label:'Перейти к регистрации', goto:'registration' } },
   { id:'payments', label:'Расчёты', status:'pending', refs:[{ phase:6 }], cta:{ label:'Перейти к расчётам', goto:'payments' } },
   { id:'done', label:'Завершено', status:'pending', refs:[{ phase:7 }] },
@@ -1239,13 +1360,58 @@ let openRouteStep = -1;
 
 const WORKSPACE = ['overview','object','participants','payments','signing','registration','registration-suspended','payment-methods','dkp-preparation'];
 const SUMMARY = {
-  overview: { pill:'pill-warn', pillText:'Подписание — требует внимания', stage:'Подписание', next:'Расчёты', blocker:'УКЭП покупателя не готова', action:'УКЭП покупателя до 3 июня', actionGoto:'participants', block:true },
-  object: { pill:'pill-ok', pillText:'Одобрено для покупки', stage:'Подписание', next:'Расчёты', blocker:'1 замечание по адресу', action:'Уточнить у продавца', actionGoto:'object', block:true },
-  participants: { pill:'pill-warn', pillText:'Готовность: 29%', stage:'Подписание', next:'Расчёты', blocker:'Идентификация покупателя', action:'Напомнить покупателю', actionId:'remind-buyer-write', block:true },
-  payments: { pill:'pill-err', pillText:'Расчёты не выбраны', stage:'Подписание', next:'Регистрация', blocker:'Инструмент не выбран', action:'Предложить СБР сторонам', actionGoto:'payment-methods', block:true },
+  overview: {
+    pill:'pill-warn', pillText:'Подписание — требует внимания', stage:'Подписание', next:'Расчёты',
+    blocker:'УКЭП покупателя не готова', action:'Напомнить покупателю до 3 июня', block:true,
+    blockerDetail: {
+      what:'У покупателя Петрова К. С. нет действующей УКЭП. Без неё нельзя подписать документы на платформе.',
+      who:'Задача покупателя. Риелтор контролирует сроки и напоминает через М2 — не нужно звонить в банк отдельно.',
+      next:'Покупатель Петров должен пройти видеоидентификацию и выпустить УКЭП в приложении М2.',
+      cta:{ label:'Перейти в чат сделки', actionId:'remind-buyer-ident' },
+    },
+  },
+  object: {
+    pill:'pill-ok', pillText:'Одобрено для покупки', stage:'Подписание', next:'Расчёты',
+    blocker:'1 замечание по адресу', action:'Уточнить у продавца', actionGoto:'object', block:true,
+    blockerDetail: {
+      what:'В выписке ЕГРН адрес указан как кв. 47а, в документах продавца — кв. 47. Расхождение нужно устранить до регистрации.',
+      who:'Задача продавца — подтвердить верный адрес. Риелтор уточняет у продавца и передаёт данные в М2.',
+      next:'Связаться с продавцом Ивановой Е. А. и уточнить адрес для договора и заявления в Росреестр.',
+      cta:{ label:'Перейти к объекту', goto:'object' },
+    },
+  },
+  participants: {
+    pill:'pill-warn', pillText:'Готовность: 29%', stage:'Подписание', next:'Расчёты',
+    blocker:'Застрял на видеоидентификации', action:'Напомнить покупателю', actionId:'remind-buyer-write', block:true,
+    blockerDetail: {
+      what:'Покупатель Петров К. С. застрял на видеоидентификации — сессия не завершена, УКЭП не выпущена.',
+      who:'Задача покупателя. Риелтор напоминает и при необходимости предлагает другой способ подтверждения личности в разделе «Участники».',
+      next:'Покупатель Петров должен пройти видеоидентификацию.',
+      cta:{ label:'Напомнить ему', actionId:'remind-buyer-ident' },
+    },
+  },
+  payments: {
+    pill:'pill-err', pillText:'Расчёты не выбраны', stage:'Подписание', next:'Регистрация',
+    blocker:'Инструмент не выбран', action:'Предложить СБР сторонам', actionGoto:'payment-methods', block:true,
+    blockerDetail: {
+      what:'Стороны ещё не выбрали способ расчётов. СБР М2 не оформлен, деньги не зарезервированы.',
+      who:'Задача риелтора — предложить сторонам вариант. Покупатель и продавец согласуют выбор на платформе.',
+      next:'Предложите сторонам СБР М2 как безопасный способ расчётов и отправьте рекомендацию.',
+      cta:{ label:'Выбрать способ расчётов', goto:'payment-methods' },
+    },
+  },
   signing: { pill:'pill-act', pillText:'● Сессия идёт', stage:'Подписание', next:'Регистрация', blocker:'—', action:'Вернуться в комнату', actionGoto:'signing', block:false },
-  registration: { pill:'pill-ok', pillText:'По плану', stage:'Регистрация', next:'Расчёты', blocker:'—', action:'Действий не требуется', block:false },
-  'registration-suspended': { pill:'pill-err', pillText:'⚠ Приостановлена', stage:'Регистрация', next:'Расчёты', blocker:'Расхождение адреса в ЕГРН', action:'Уточнить адрес у продавца', actionGoto:'object', block:true },
+  registration: { pill:'pill-ok', pillText:'В работе', stage:'Регистрация', next:'Расчёты', blocker:'—', action:'Действий не требуется', block:false },
+  'registration-suspended': {
+    pill:'pill-err', pillText:'⚠ Приостановлена', stage:'Регистрация', next:'Расчёты',
+    blocker:'Расхождение адреса в ЕГРН', action:'Уточнить адрес у продавца', actionGoto:'object', block:true,
+    blockerDetail: {
+      what:'Росреестр приостановил регистрацию: адрес в заявлении не совпадает с данными ЕГРН (кв. 47 / кв. 47а).',
+      who:'Задача продавца — предоставить подтверждение. М2 готовит письмо в Росреестр после получения данных.',
+      next:'Уточните у продавца верный адрес и загрузите подтверждающий документ в разделе «Объект».',
+      cta:{ label:'Перейти к объекту', goto:'object' },
+    },
+  },
 };
 
 let selectedPayment = null;
@@ -1292,9 +1458,9 @@ function renderDeals() {
   tb.innerHTML = DEALS_LIST.map(d => {
     const cur = d.id === '4521' ? ' class="is-current"' : '';
     const pill = d.status === 'warn' ? 'pill-warn' : d.status === 'err' ? 'pill-err' : 'pill-ok';
-    const pillT = d.status === 'warn' ? 'Требует внимания' : d.status === 'err' ? 'Риск' : 'По плану';
+    const pillT = d.status === 'warn' ? 'Требует внимания' : d.status === 'err' ? 'Риск' : 'Идёт по графику';
     const open = d.id === '4521' ? ' data-open-deal="true"' : '';
-    return `<tr${cur}${open}><td class="deal-name">${d.address}</td><td>${d.price}</td><td>${d.step}</td><td>${d.blocker || '—'}</td><td><span class="pill ${pill}" style="font-size:10px">${pillT}</span></td><td>${AGENT_KV}</td></tr>`;
+    return `<tr${cur}${open}><td class="deal-name">${d.address}</td><td>${d.price}</td><td>${d.step}</td><td>${d.blocker || '—'}</td><td><span class="pill ${pill}" style="font-size:10px">${pillT}</span></td><td class="deal-bonus"><span class="deal-bonus-amount">${AGENT_KV.amount}</span><span class="deal-bonus-status">${AGENT_KV.status}</span></td></tr>`;
   }).join('');
   tb.querySelectorAll('[data-open-deal="true"]').forEach(r => r.addEventListener('click', () => showView('overview')));
   document.getElementById('kanban').innerHTML = `
@@ -1425,9 +1591,12 @@ function renderAggregator() {
     <tr class="pay-cmp-row${p.recommended ? ' is-rec' : ''}${p.isNew ? ' is-muted' : ''}">
       <td>
         <div class="pay-cmp-instrument">
-          <span class="pay-cmp-name">${p.label}</span>
-          ${p.recommended ? '<span class="tile-pill-rec">Рекомендован</span>' : ''}
-          ${p.isNew ? '<span class="tile-pill-new">Новое</span>' : ''}
+          <div class="pay-cmp-instrument-head">
+            <span class="pay-cmp-name">${p.label}</span>
+            ${p.recommended ? '<span class="tile-pill-rec">Рекомендован</span>' : ''}
+            ${p.isNew ? '<span class="tile-pill-new">Новое</span>' : ''}
+          </div>
+          ${p.desc ? `<p class="pay-cmp-desc">${p.desc}</p>` : ''}
         </div>
       </td>
       <td>${p.price}</td>
@@ -1525,7 +1694,7 @@ function renderRouteDetail() {
   metaParts.push(`<span class="${st.cls}">${st.label}</span>`);
   let cta = '';
   if (step.cta) {
-    cta = `<div class="route-detail-cta"><button type="button" class="btn ${step.status === 'current' ? 'btn-p' : 'btn-g'}" data-goto="${step.cta.goto}">${step.cta.label}</button></div>`;
+    cta = `<div class="route-detail-cta"><button type="button" class="btn btn-g" data-goto="${step.cta.goto}">${step.cta.label}</button></div>`;
   }
   const detail = document.getElementById('route-detail');
   detail.innerHTML = `
@@ -1546,7 +1715,7 @@ function renderRoute() {
   const progressStep = currentIdx >= 0 ? currentIdx + 1 : ROUTE_STEPS.filter(s => s.status === 'done').length;
   const pct = Math.round((progressStep / ROUTE_STEPS.length) * 100);
 
-  document.getElementById('route-progress-label').textContent = `${progressStep} из ${ROUTE_STEPS.length}`;
+  document.getElementById('route-progress-label').textContent = `Прогресс сделки ${progressStep} из ${ROUTE_STEPS.length}`;
   const meter = document.getElementById('route-meter');
   const fill = document.getElementById('route-meter-fill');
   meter.setAttribute('aria-valuenow', pct);
@@ -1586,14 +1755,87 @@ function initRoute() {
   renderRoute();
 }
 
-function renderSummaryAction(s) {
-  if (s.actionId) {
-    return `<button type="button" class="summary-action-link" data-action="${s.actionId}">${s.action}</button>`;
+let blockerDrawerOpener = null;
+
+function renderBlockerCell(s, viewName) {
+  const blocked = s.block && s.blocker !== '—';
+  let content;
+  if (blocked && s.blockerDetail) {
+    content = `<button type="button" class="blocker-trigger" data-blocker-view="${viewName}" aria-haspopup="dialog" aria-controls="blocker-modal">${s.blocker}</button>`;
+  } else {
+    content = `<div class="cell-v">${s.blocker}</div>`;
   }
-  if (!s.actionGoto) {
-    return `<div class="cell-v-static">${s.action}</div>`;
-  }
-  return `<button type="button" class="summary-action-link" data-goto="${s.actionGoto}">${s.action}</button>`;
+  return `<div class="cell${blocked ? ' block' : ''}"><div class="cell-k">Блокер</div>${content}</div>`;
+}
+
+function renderBlockerModalCta(cta) {
+  if (!cta) return '<button type="button" class="btn btn-g" id="blocker-modal-dismiss">Закрыть</button>';
+  const main = cta.actionId
+    ? `<button type="button" class="btn btn-p" data-action="${cta.actionId}">${cta.label}</button>`
+    : cta.goto
+      ? `<button type="button" class="btn btn-p" data-goto="${cta.goto}">${cta.label}</button>`
+      : '';
+  return `${main}<button type="button" class="btn btn-g" id="blocker-modal-dismiss">Закрыть</button>`;
+}
+
+function openBlockerModal(viewName, opener) {
+  const s = SUMMARY[viewName];
+  const detail = s?.blockerDetail;
+  const modal = document.getElementById('blocker-modal');
+  if (!detail || !modal) return;
+
+  blockerDrawerOpener = opener || null;
+  document.getElementById('blocker-modal-title').textContent = s.blocker;
+  document.getElementById('blocker-modal-body').innerHTML = `
+    <div class="blocker-section">
+      <div class="blocker-section-k">Что случилось</div>
+      <p class="blocker-section-v">${detail.what}</p>
+    </div>
+    <div class="blocker-section">
+      <div class="blocker-section-k">Чья задача</div>
+      <p class="blocker-section-v">${detail.who}</p>
+    </div>
+    <div class="blocker-section is-highlight">
+      <div class="blocker-section-k">Что нужно сделать</div>
+      <p class="blocker-section-v">${detail.next}</p>
+    </div>`;
+  document.getElementById('blocker-modal-foot').innerHTML = renderBlockerModalCta(detail.cta);
+
+  modal.hidden = false;
+  modal.classList.add('is-open');
+  document.getElementById('blocker-modal-close')?.focus();
+}
+
+function closeBlockerModal() {
+  const modal = document.getElementById('blocker-modal');
+  if (!modal) return;
+  modal.classList.remove('is-open');
+  modal.hidden = true;
+  blockerDrawerOpener?.focus();
+  blockerDrawerOpener = null;
+}
+
+function initBlockerModal() {
+  const modal = document.getElementById('blocker-modal');
+  if (!modal) return;
+
+  document.addEventListener('click', e => {
+    const trigger = e.target.closest('[data-blocker-view]');
+    if (trigger) {
+      e.preventDefault();
+      e.stopPropagation();
+      openBlockerModal(trigger.dataset.blockerView, trigger);
+      return;
+    }
+    if (e.target === modal) closeBlockerModal();
+  });
+  document.getElementById('blocker-modal-close')?.addEventListener('click', closeBlockerModal);
+  document.getElementById('blocker-modal-foot')?.addEventListener('click', e => {
+    if (e.target.closest('#blocker-modal-dismiss')) closeBlockerModal();
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && modal.classList.contains('is-open')) closeBlockerModal();
+  });
 }
 
 function updateSummary(name) {
@@ -1611,9 +1853,8 @@ function updateSummary(name) {
   }
   sumRow.innerHTML = `
     <div class="cell"><div class="cell-k">Этап</div><div class="cell-v">${s.stage}</div></div>
-    <div class="cell"><div class="cell-k">Следующий</div><div class="cell-v">${s.next}</div></div>
-    <div class="cell${s.block?' block':''}"><div class="cell-k">Блокер</div><div class="cell-v">${s.blocker}</div></div>
-    <div class="cell act"><div class="cell-k">Действие</div>${renderSummaryAction(s)}</div>`;
+    ${renderBlockerCell(s, name)}
+    <div class="cell"><div class="cell-k">Следующий шаг</div><div class="cell-v">${s.next}</div></div>`;
 }
 
 function showView(name) {
@@ -1754,6 +1995,54 @@ function initSbrContractModal() {
   });
 }
 
+function initRegDocModal({ modalId, openId, downloadId, closeIds, downloadLabel }) {
+  const modal = document.getElementById(modalId);
+  const openBtn = document.getElementById(openId);
+  if (!modal || !openBtn) return;
+
+  const download = () => alert(`В прототипе: скачивание PDF — ${downloadLabel}.`);
+  const close = () => {
+    modal.classList.remove('is-open');
+    modal.hidden = true;
+    openBtn.focus();
+  };
+
+  openBtn.addEventListener('click', () => {
+    modal.hidden = false;
+    modal.classList.add('is-open');
+    document.getElementById(closeIds[0])?.focus();
+  });
+  document.getElementById(downloadId)?.addEventListener('click', e => {
+    e.stopPropagation();
+    download();
+  });
+  closeIds.forEach(id => document.getElementById(id)?.addEventListener('click', close));
+  document.getElementById(`${modalId}-download`)?.addEventListener('click', download);
+  modal.addEventListener('click', e => {
+    if (e.target === modal) close();
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && modal.classList.contains('is-open')) close();
+  });
+}
+
+function initRegDocsModal() {
+  initRegDocModal({
+    modalId: 'reg-rr-app-modal',
+    openId: 'reg-rr-app-open',
+    downloadId: 'reg-rr-app-download',
+    closeIds: ['reg-rr-app-modal-close', 'reg-rr-app-modal-dismiss'],
+    downloadLabel: 'заявление в Росреестр',
+  });
+  initRegDocModal({
+    modalId: 'reg-fee-receipt-modal',
+    openId: 'reg-fee-receipt-open',
+    downloadId: 'reg-fee-receipt-download',
+    closeIds: ['reg-fee-receipt-modal-close', 'reg-fee-receipt-modal-dismiss'],
+    downloadLabel: 'квитанция об оплате госпошлины',
+  });
+}
+
 function initDkpModal() {
   const modal = document.getElementById('dkp-modal');
   if (!modal) return;
@@ -1822,30 +2111,21 @@ function initMemoModal() {
 
 function initRegFast() {
   const btn = document.getElementById('reg-fast-btn');
-  const forecast = document.getElementById('reg-sbr-forecast');
   const bannerForecast = document.getElementById('reg-forecast-date');
-  const context = document.getElementById('reg-fast-context');
+  const bannerForecastSub = document.getElementById('reg-forecast-sub');
   if (!btn) return;
-
-  const setRegFastContext = active => {
-    if (!context) return;
-    context.innerHTML = active
-      ? '<span class="accent">Ускоренная — завтра</span> <span class="dim">· запрос отправлен</span>'
-      : '<span class="dim">Ожидание — до 28 мая (6 дней).</span> <span class="accent">Ускоренная — завтра</span>';
-  };
 
   btn.addEventListener('click', () => {
     const active = btn.classList.toggle('is-active');
     btn.setAttribute('aria-pressed', active ? 'true' : 'false');
-    btn.textContent = active ? 'Ускоренная регистрация запрошена' : 'Запросить ускоренную регистрацию';
-    setRegFastContext(active);
-    if (forecast) forecast.textContent = active ? 'завтра · ускоренная' : '28 мая · через 6 дней';
-    if (bannerForecast) bannerForecast.textContent = active ? 'Прогноз — завтра' : 'Прогноз — 28 мая';
+    btn.textContent = active ? 'Запрошено' : 'Запросить';
+    if (bannerForecast) bannerForecast.textContent = active ? 'завтра' : '28 мая';
+    if (bannerForecastSub) bannerForecastSub.textContent = active ? '· ускоренная' : '· 6 дней';
   });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  renderDeals(); renderObjectShield(); renderDkpPrep(); renderAggregator(); initRoute(); mountM2ManagerCards(); initAdvanceDocModal(); initSbrContractModal(); initDkpModal(); initMemoModal(); initRegFast();
+  renderDeals(); renderObjectShield(); renderDkpPrep(); renderAggregator(); initRoute(); mountM2ManagerCards(); initBlockerModal(); initAdvanceDocModal(); initSbrContractModal(); initDkpModal(); initRegDocsModal(); initMemoModal(); initRegFast();
   document.getElementById('deal-menu-toggle')?.addEventListener('click', e => {
     e.stopPropagation();
     toggleDealMenu();
@@ -1860,11 +2140,16 @@ document.addEventListener('DOMContentLoaded', () => {
       if (actionEl.dataset.action === 'remind-buyer-write') {
         alert('Напоминание отправлено покупателю: подписать договор внесения аванса.');
       }
+      if (actionEl.dataset.action === 'remind-buyer-ident') {
+        alert('Напоминание отправлено покупателю Петрову К. С.: пройти видеоидентификацию.');
+        closeBlockerModal();
+      }
       return;
     }
     const el = e.target.closest('[data-page],[data-goto]');
     if (!el) return;
     e.preventDefault();
+    closeBlockerModal();
     showView(el.dataset.page || el.dataset.goto);
     closeDealMenu();
   });
