@@ -1356,7 +1356,7 @@ const PAYMENT_METHODS = [
 ];
 const PHASES = [
   { id:1, title:"Подготовка к сделке", steps:6, done:6, dates:"14–19 мая", pill:"grp-done", micro:[
-    {t:"Договор с М2",s:"done",d:"14 мая"},{t:"Сбор документов",s:"done",d:"15 мая"},{t:"Проверка объекта",s:"warn",d:"замечание"},
+    {t:"Договор с М2",s:"done",d:"14 мая"},{t:"Сбор документов",s:"done",d:"15 мая"},{t:"Экспресс-проверка объекта",s:"done",d:"16 мая"},
     {t:"Согласование условий",s:"done",d:"17 мая"},{t:"Резерв СБР",s:"done",d:"18 мая"},{t:"Готовность",s:"done",d:"19 мая"}] },
   { id:2, title:"Подготовка к подписанию", steps:6, done:6, dates:"20–22 мая", pill:"grp-done", micro:[
     {t:"Идентификация покупателя",s:"warn",d:"сейчас"},{t:"Идентификация продавца",s:"done",d:"20 мая"},
@@ -1382,7 +1382,7 @@ const PHASES = [
 const ROUTE_STEPS = [
   { id:'conditions', label:'Условия', status:'done', refs:[{ phase:0 }] },
   { id:'participants', label:'Участники', status:'done', warn:true, refs:[{ phase:1, micro:[0,1,2,3] }], cta:{ label:'Перейти к участникам', goto:'participants' } },
-  { id:'object', label:'Объект', status:'done', warn:true, refs:[{ phase:0, micro:[1,2] }], cta:{ label:'Перейти к объекту', goto:'object' } },
+  { id:'object', label:'Объект', status:'done', warn:true, refs:[{ phase:0, micro:[1,2], overrides:{ 2:{ t:'Полная проверка объекта', s:'warn', d:'замечание' } } }], cta:{ label:'Перейти к объекту', goto:'object' } },
   { id:'signing', label:'Подписание', status:'current', refs:[{ phase:2 }, { phase:3 }, { phase:4 }], cta:{ label:'Перейти в подписание', goto:'signing' } },
   { id:'payments', label:'Расчёты', status:'pending', refs:[{ phase:6 }], cta:{ label:'Перейти к расчётам', goto:'payments' } },
   { id:'registration', label:'Регистрация', status:'pending', refs:[{ phase:5 }], cta:{ label:'Перейти к регистрации', goto:'registration' } },
@@ -1670,7 +1670,11 @@ function microStepMark(phase, index, item) {
 function resolveRefItems(ref) {
   const phase = PHASES[ref.phase];
   const indices = ref.micro ?? phase.micro.map((_, i) => i);
-  return indices.map(i => ({ phase, index: i, item: phase.micro[i] }));
+  return indices.map(i => {
+    let item = phase.micro[i];
+    if (ref.overrides?.[i]) item = { ...item, ...ref.overrides[i] };
+    return { phase, index: i, item };
+  });
 }
 
 function stepStatusLabel(step) {
