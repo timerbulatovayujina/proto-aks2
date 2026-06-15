@@ -236,13 +236,42 @@
     .filters { display: flex; gap: 8px; flex-wrap: wrap; margin: 14px 0; }
     .chip { padding: 6px 12px; border: 1px solid var(--line); border-radius: 99px; background: var(--surface); font: 500 12px/1 var(--sans); cursor: pointer; }
     .chip.is-active { background: #101828; color: #fff; border-color: #101828; }
-    .deals-table { width: 100%; border-collapse: collapse; font-size: 12px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); }
-    .deals-table th { text-align: left; padding: 10px 12px; font-size: 10px; font-weight: 600; text-transform: uppercase; color: var(--faint); border-bottom: 1px solid var(--line); }
-    .deals-table td { padding: 11px 12px; border-bottom: 1px solid var(--line); color: var(--muted); }
-    .deals-table tbody tr { cursor: pointer; }
-    .deals-table tbody tr:hover td { background: var(--subtle); }
-    .deals-table .deal-name { font-weight: 600; color: var(--text); }
-    .deal-bonus { min-width: 120px; }
+    .deals-table-wrap { min-width: 0; max-width: 100%; }
+    .deals-list { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; }
+    .deals-list-header {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 0.9fr) minmax(0, 1.1fr) minmax(0, 1.1fr) minmax(0, 1fr);
+      gap: 0 12px;
+      align-items: center;
+      padding: 10px 12px;
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: var(--faint);
+      border-bottom: 1px solid var(--line);
+      background: var(--surface);
+    }
+    .deal-item {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 0.9fr) minmax(0, 1.1fr) minmax(0, 1.1fr) minmax(0, 1fr);
+      gap: 0 12px;
+      align-items: center;
+      padding: 11px 12px;
+      border-bottom: 1px solid var(--line);
+      font-size: 12px;
+      line-height: 1.4;
+      color: var(--muted);
+      cursor: pointer;
+      background: var(--surface);
+    }
+    .deal-item:last-child { border-bottom: none; }
+    .deal-item:hover { background: var(--subtle); }
+    .deal-col { min-width: 0; }
+    .deal-col--address .deal-name { display: block; font-weight: 600; color: var(--text); }
+    .deal-col--price { white-space: nowrap; }
+    .deal-col--blocker { word-break: break-word; }
+    .deal-col--status .pill { display: inline-flex; align-items: center; font-size: 10px; line-height: 1.2; padding: 3px 8px; }
+    .deal-bonus { min-width: 0; line-height: 1.35; }
     .deal-bonus-amount { display: block; font-weight: 600; color: var(--ok); }
     .deal-bonus-status { display: block; margin-top: 2px; font-size: 11px; color: var(--muted); }
     .kanban-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 14px; }
@@ -609,6 +638,56 @@
       .where-now-btns { margin-top: 12px; flex-direction: column; }
       .where-now-btns .btn { width: 100%; justify-content: center; }
       .where-now-lead { overflow-wrap: anywhere; }
+      .deals-page h1 { font-size: 18px; }
+      .deals-sub { font-size: 12px; }
+      .filters { margin: 10px 0 12px; }
+      .deals-table-wrap { overflow: visible; background: transparent; border: none; border-radius: 0; }
+      .deals-list { display: flex; flex-direction: column; gap: 10px; border: none; border-radius: 0; background: transparent; overflow: visible; }
+      .deals-list-header { display: none; }
+      .deal-item {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        grid-template-areas:
+          "address status"
+          "price price"
+          "step step"
+          "blocker blocker"
+          "bonus bonus";
+        align-items: start;
+        gap: 10px;
+        padding: 14px;
+        border: 1px solid var(--line);
+        border-radius: var(--r);
+        background: var(--surface);
+      }
+      .deal-item:last-child { border-bottom: 1px solid var(--line); }
+      .deal-col--address { grid-area: address; }
+      .deal-col--status { grid-area: status; justify-self: end; }
+      .deal-col--price { grid-area: price; font-size: 15px; font-weight: 600; color: var(--text); white-space: normal; }
+      .deal-col--step { grid-area: step; }
+      .deal-col--blocker { grid-area: blocker; }
+      .deal-col--bonus { grid-area: bonus; }
+      .deal-col--status .pill { font-size: 10px; white-space: normal; text-align: right; line-height: 1.3; padding: 4px 10px; }
+      .deal-col--step,
+      .deal-col--blocker,
+      .deal-col--bonus {
+        display: grid;
+        grid-template-columns: 76px minmax(0, 1fr);
+        gap: 8px 12px;
+        align-items: start;
+      }
+      .deal-col--step::before,
+      .deal-col--blocker::before,
+      .deal-col--bonus::before {
+        content: attr(data-label);
+        font-size: 10px;
+        font-weight: 600;
+        text-transform: uppercase;
+        color: var(--faint);
+        line-height: 1.4;
+        padding-top: 1px;
+      }
+      .deal-col--bonus .deal-bonus-amount { font-size: 13px; }
     }
 
     @media (max-width: 480px) {
@@ -618,6 +697,10 @@
       .summary-row .cell:nth-child(3) { grid-column: auto; border-top: none; }
       .page { padding: 10px 12px 20px; }
       .card, .card.hero { padding: 12px; }
+      .deal-item { padding: 12px; gap: 8px; }
+      .deal-col--step,
+      .deal-col--blocker,
+      .deal-col--bonus { grid-template-columns: 68px minmax(0, 1fr); gap: 6px 10px; }
     }
   </style>
 </head>
@@ -683,8 +766,12 @@
           <button type="button" class="chip">Дистанционные</button>
           <button type="button" class="chip">ВТБ</button>
         </div>
-        <div class="deals-table-wrap card" style="padding:0;overflow:hidden">
-          <table class="deals-table" id="deals-table"><thead><tr><th>Адрес</th><th>Цена</th><th>Этап</th><th>Блокер</th><th>Статус</th><th>Ваш бонус</th></tr></thead><tbody></tbody></table>
+        <div class="deals-table-wrap">
+          <div class="deals-list" id="deals-list">
+            <div class="deals-list-header">
+              <span>Адрес</span><span>Цена</span><span>Этап</span><span>Блокер</span><span>Статус</span><span>Ваш бонус</span>
+            </div>
+          </div>
         </div>
         <div class="kanban-row" id="kanban"></div>
       </div>
@@ -1487,15 +1574,23 @@ function syncNavActive(name, ws) {
 }
 
 function renderDeals() {
-  const tb = document.querySelector('#deals-table tbody');
-  tb.innerHTML = DEALS_LIST.map(d => {
-    const cur = d.id === '4521' ? ' class="is-current"' : '';
+  const list = document.getElementById('deals-list');
+  const items = DEALS_LIST.map(d => {
     const pill = d.status === 'warn' ? 'pill-warn' : d.status === 'err' ? 'pill-err' : 'pill-ok';
     const pillT = d.status === 'warn' ? 'Требует внимания' : d.status === 'err' ? 'Риск' : 'Идёт по графику';
     const open = d.id === '4521' ? ' data-open-deal="true"' : '';
-    return `<tr${cur}${open}><td class="deal-name">${d.address}</td><td>${d.price}</td><td>${d.step}</td><td>${d.blocker || '—'}</td><td><span class="pill ${pill}" style="font-size:10px">${pillT}</span></td><td class="deal-bonus"><span class="deal-bonus-amount">${AGENT_KV.amount}</span><span class="deal-bonus-status">${AGENT_KV.status}</span></td></tr>`;
+    return `<article class="deal-item"${open}>
+      <div class="deal-col deal-col--address"><span class="deal-name">${d.address}</span></div>
+      <div class="deal-col deal-col--price">${d.price}</div>
+      <div class="deal-col deal-col--step" data-label="Этап">${d.step}</div>
+      <div class="deal-col deal-col--blocker" data-label="Блокер">${d.blocker || '—'}</div>
+      <div class="deal-col deal-col--status"><span class="pill ${pill}">${pillT}</span></div>
+      <div class="deal-col deal-col--bonus" data-label="Ваш бонус"><span class="deal-bonus"><span class="deal-bonus-amount">${AGENT_KV.amount}</span><span class="deal-bonus-status">${AGENT_KV.status}</span></span></div>
+    </article>`;
   }).join('');
-  tb.querySelectorAll('[data-open-deal="true"]').forEach(r => r.addEventListener('click', () => showView('overview')));
+  const header = `<div class="deals-list-header"><span>Адрес</span><span>Цена</span><span>Этап</span><span>Блокер</span><span>Статус</span><span>Ваш бонус</span></div>`;
+  list.innerHTML = header + items;
+  list.querySelectorAll('[data-open-deal="true"]').forEach(r => r.addEventListener('click', () => showView('overview')));
   document.getElementById('kanban').innerHTML = `
     <div class="kanban-col"><h4>Подготовка</h4><button class="mini-card">б-р Победы, 22</button></div>
     <div class="kanban-col"><h4>Подписание</h4><button class="mini-card is-current" data-open-deal>ул. Лесная, 14</button></div>
