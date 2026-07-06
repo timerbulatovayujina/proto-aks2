@@ -24,8 +24,8 @@
     body { margin: 0; font-family: var(--sans); background: var(--bg); color: var(--text); line-height: 1.45; overflow-x: clip; }
 
     .nav { height: 44px; padding: 0 24px; display: flex; align-items: center; gap: 16px; background: var(--surface); border-bottom: 1px solid var(--line); }
-    .logo-m2 { text-decoration: none; color: inherit; }
-    .logo-m2-mark { display: inline-flex; align-items: center; justify-content: center; min-width: 36px; height: 28px; padding: 0 8px; background: var(--text); color: #fff; border-radius: 6px; font-size: 14px; font-weight: 700; }
+    .logo-m2 { text-decoration: none; color: inherit; display: inline-flex; align-items: center; }
+    .logo-m2 img { display: block; height: 28px; width: auto; }
     .nav .spacer { flex: 1; }
     .nav a { font-size: 13px; color: var(--muted); text-decoration: none; }
     .nav a.nav-deals-link.is-active { color: var(--text); font-weight: 600; }
@@ -707,7 +707,7 @@
 <body>
 
 <header class="nav">
-  <a href="#" class="logo-m2" data-page="deals"><span class="logo-m2-mark">М2</span></a>
+  <a href="#" class="logo-m2" data-page="deals" aria-label="М2"><img src="https://cdn.m2.ru/assets/images/logo.svg" alt="М2" width="52" height="28"></a>
   <a href="#" class="nav-deals-link" data-page="deals">Мои сделки</a>
   <div class="deal-menu-mobile" id="deal-menu-mobile">
     <button type="button" class="deal-menu-toggle" id="deal-menu-toggle" aria-expanded="false" aria-controls="deal-menu-dropdown" aria-label="Раздел сделки">
@@ -759,7 +759,7 @@
     <!-- deals -->
     <div class="page-view is-active" data-view="deals">
       <div class="deals-page">
-        <h1>Все сделки</h1>
+        <h1>Все сделки М2</h1>
         <p class="deals-sub">4 активные сделки</p>
         <div class="filters">
           <button type="button" class="chip is-active">Все</button>
